@@ -14,6 +14,7 @@ export default class abertura extends Phaser.Scene {
         this.add.image(400, 225, 'bg')                                          // sempre plotar a imagem no centro da tela
             .setInteractive()
             .on('pointerdown', () => {
+            this.scene.stop()
             this.scene.start('precarregamento')
         })
     }

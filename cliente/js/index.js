@@ -5,6 +5,7 @@ import sala from './sala.js'
 import creditos from './creditos.js'
 import rankingPersonal from './ranking-personal.js'
 import rankingGlobal from './ranking-global.js'
+import fase1 from './fase1.js'
 
 class Game extends Phaser.Game {
     constructor () {
@@ -16,6 +17,7 @@ class Game extends Phaser.Game {
         this.scene.add('creditos', creditos)
         this.scene.add('rankingPersonal', rankingPersonal)
         this.scene.add('rankingGlobal', rankingGlobal)
+        this.scene.add('fase1', fase1)
         this.scene.start('abertura')
     }
 }
