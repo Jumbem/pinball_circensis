@@ -8,19 +8,23 @@ export default class fase1 extends Phaser.Scene {
 
   preload () { 
     this.load.spritesheet('jensonbutton', 'assets/jensonbutton.png', {
-      frameWidth: 20,
-      frameHeight: 14
+      frameWidth: 40,
+      frameHeight: 29
     })
   }
 
-  create () { 
-    this.jensonbutton = this.physics.add.sprite(100, 100, 'jensonbutton')
+  create () {
+    this.jensonbutton = this.physics.add.sprite(500, 400, 'jensonbutton')
+    this.jensonbutton
+      .setInteractive()
+      .on('pointerdown', () => {
+        this.jensonbutton.play('jensonbutton-press')
+      })
 
     this.anims.create({
-      key: 'jensonbutton-pressed',
-      frames: this.anims.generateFrameNumbers('jensonbutton', { start: 0, end: 1}),
-      frameRate: 2,
-      repeat: -1
+      key: 'jensonbutton-press',
+      frames: this.anims.generateFrameNumbers('jensonbutton', { start: 0, end: 2}),
+      frameRate: 60
     })
 
     this.jensonbutton.play('jensonbutton-pressed')
