@@ -1,7 +1,7 @@
 export default {
     type: Phaser.AUTO,
-    width: 800, // tamanho da tela; se for muito grande, pode haver problemas de desempenho
-    height: 450,
+    width: 450, // tamanho da tela; se for muito grande, pode haver problemas de desempenho
+    height: 800,
     parent: 'game-container',
     physics: {
         default: 'arcade',
