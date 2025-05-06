@@ -25,6 +25,14 @@ class Game extends Phaser.Game {
 
         this.mqttClient.on("connect", () => {
             console.log("Conectado ao broker MQTT!");
+        });
+
+        this.mqttClient.subscribe("adc20251/pinball-space/#", () => {
+            console.log("inscrito no tópico adc20251/pinball-space/#")
+        })
+
+        this.mqttClient.on("message", (topic, message) => {
+            console.log(topic, message);
         })
     }
 }
