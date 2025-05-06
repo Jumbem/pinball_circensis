@@ -11,14 +11,21 @@ class Game extends Phaser.Game {
     constructor () {
         super(config)
 
-        this.scene.add('abertura', abertura)
-        this.scene.add('precarregamento', precarregamento)
-        this.scene.add('sala', sala)
-        this.scene.add('creditos', creditos)
-        this.scene.add('rankingPersonal', rankingPersonal)
-        this.scene.add('rankingGlobal', rankingGlobal)
-        this.scene.add('fase1', fase1)
-        this.scene.start('abertura')
+        this.scene.add('abertura', abertura);
+        this.scene.add('precarregamento', precarregamento);
+        this.scene.add('sala', sala);
+        this.scene.add('creditos', creditos);
+        this.scene.add('rankingPersonal', rankingPersonal);
+        this.scene.add('rankingGlobal', rankingGlobal);
+        this.scene.add('fase1', fase1);
+
+        this.scene.start('abertura');
+
+        this.mqttClient = mqtt.connect("wss://em.sj.ifsc.edu.br/mqtt/")
+
+        this.mqttClient.on("connect", () => {
+            console.log("Conectado ao broker MQTT!");
+        })
     }
 }
 

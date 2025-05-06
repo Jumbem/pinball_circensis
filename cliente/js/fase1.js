@@ -7,27 +7,24 @@ export default class fase1 extends Phaser.Scene {
   init () { }
 
   preload () { 
+    this.load.audio("ost", "assets/ost.mp3")
+    this.load.audio("honk", "assets/honk.mp3")
     this.load.spritesheet('jensonbutton', 'assets/jensonbutton.png', {
-      frameWidth: 40,
+      frameWidth: 40, // os tamanhos devem sempre corresponder ao tamanho do frame do objeto/personagem
       frameHeight: 29
     })
   }
 
   create () {
-    this.jensonbutton = this.physics.add.sprite(225, 300, 'jensonbutton')
-    this.jensonbutton
-      .setInteractive()
-      .on('pointerdown', () => {
-        this.jensonbutton.play('jensonbutton-pressing')
-      })
-
-//    this.anims.create({
-//      key: 'jensonbutton-pressing',
-//      frames: this.anims.generateFrameNumbers('jensonbutton', { start: 0, end: 2}),
-//      frameRate: 60
-//    })
-//
-//    this.jensonbutton.play('jensonbutton-pressing')
+    //this.ost = this.sound.add("ost", { loop: true }).play();
+    this.jensonbutton = this.add.sprite(225, 300, 'jensonbutton') // Comando de física (desnecessário p/ um botão)
+    this.jensonbutton.setInteractive().on('pointerdown', () => { // a interatividade só acontece ao clicar/tocar no botão
+      this.jensonbutton.play('jensonbutton-pressing')
+      this.honk = this.sound.add("honk", { loop: false}).play()
+      if ('vibrate' in navigator) {
+        navigator.vibrate(100)
+      }
+    })
   }
 
   update () { }
