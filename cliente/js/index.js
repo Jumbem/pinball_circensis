@@ -32,7 +32,7 @@ class Game extends Phaser.Game {
         })
 
         this.mqttClient.on("message", (topic, message) => {
-            console.log(topic, message);
+            console.log(topic, message.toString());
         })
     }
 }
