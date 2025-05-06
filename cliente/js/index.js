@@ -32,7 +32,19 @@ class Game extends Phaser.Game {
         })
 
         this.mqttClient.on("message", (topic, message) => {
-            console.log(topic, message.toString());
+            let msg = message.toString()
+            console.log(topic, msg);
+
+            if (msg === 'fase1') {
+                this.scene.stop();
+                this.scene.start("fase1");
+            }
+            if (msg === 'rankingP') {
+                this.scene.start("rankingPersonal");
+            }
+            if (msg === 'rankingG') {
+                this.scene.start("rankingGlobal");
+            }
         })
     }
 }
