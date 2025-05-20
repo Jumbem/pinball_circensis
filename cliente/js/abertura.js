@@ -26,7 +26,7 @@ export default class abertura extends Phaser.Scene {
         this.jensonbutton = this.add.sprite(225, 300, 'jensonbutton')
         this.jensonbutton
             .setInteractive()
-            .on('pointerdown', () => { // a interatividade só acontece ao clicar/tocar no botão
+            .on('pointerdown'), () => { // a interatividade só acontece ao clicar/tocar no botão
                 navigator.mediaDevices
                     .getUserMedia({ video: false, audio: true })
                     .then((stream) => {
