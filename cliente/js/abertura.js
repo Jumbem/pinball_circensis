@@ -27,18 +27,19 @@ export default class abertura extends Phaser.Scene {
         this.jensonbutton
             .setInteractive()
             .on('pointerdown'), () => { // a interatividade só acontece ao clicar/tocar no botão
-                navigator.mediaDevices
-                    .getUserMedia({ video: false, audio: true })
-                    .then((stream) => {
-                        this.game.midias = stream;
-                    })
-                    .catch((error)) => console.error(error);
+            navigator.mediaDevices
+                .getUserMedia({ video: false, audio: true })
+                .then((stream) => {
+                    this.game.midias = stream;
+                })
+                .catch((error)) => console.error(error);
             this.jensonbutton.play('jensonbutton-pressing')
             if ('vibrate' in navigator) {
                 navigator.vibrate(100)
             }
+            
         }
-    )
+    }
         
         //          this.time.delayedCall(200, () => {
         //              this.jensonbutton.on('animationcomplete', () => {
