@@ -1,3 +1,5 @@
+/*global Phaser, io*/
+/*eslint no-undef: "error"*/
 import config from './config.js'
 import abertura from './abertura.js'
 import precarregamento from './precarregamento.js'
@@ -11,7 +13,19 @@ class Game extends Phaser.Game {
     constructor () {
         super(config)
 
+        this.audio = document.querySelector("audio");
+        this.iceServers = {
+            iceServers: [
+                {
+                    urls: "stun:feira-de-jogos.dev.br",
+                },
+                {
+                    urls: "stun:stun.1.google.com:19302",
+                },
+            ],
+        };
         this.socket = io();
+        
         this.socket.on("connect", () => {
             console.log(`Usuário ${this.socket.id} conectado no servidor`);
         })

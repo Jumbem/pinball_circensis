@@ -1,3 +1,5 @@
+/*global Phaser, io*/
+/*eslint no-undef: "error"*/
 export default {
     type: Phaser.AUTO,
     width: 450, // tamanho da tela; se for muito grande, pode haver problemas de desempenho
