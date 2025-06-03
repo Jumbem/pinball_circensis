@@ -1,16 +1,17 @@
 /*global Phaser, io*/
 /*eslint no-undef: "error"*/
-export default class fase1 extends Phaser.Scene {
+export default class jogar extends Phaser.Scene {
 
   constructor () {
-    super('fase1')
+    super('jogar')
   }
 
   init () { }
 
   preload () { 
-    this.load.audio("ost", "assets/ost.mp3")
+    //this.load.audio("ost", "assets/ost.mp3")
     this.load.audio("honk", "assets/honk.mp3")
+    this.load.image("jogar", "assets/jogar.png")
     this.load.spritesheet('jensonbutton', 'assets/jensonbutton.png', {
       frameWidth: 64, // os tamanhos devem sempre corresponder ao tamanho do frame do objeto/personagem
       frameHeight: 40
@@ -18,20 +19,20 @@ export default class fase1 extends Phaser.Scene {
   }
 
   create () {
-    this.fullscreen = this.add.image(680, 50, "fullscreen")
-      .setInteractive()
-      .setDepth(50)
-      .setScale(0.01)
-      .setScrollFactor(0)
-      .on("pointerdown", () => {
-        if (this.scale.isFullscreen) {
-          this.scale.stopFullscreen();
-        } else {
-          this.scale.startFullscreen();
-        }
-      });
+//    this.fullscreen = this.add.image(680, 50, "fullscreen")
+//      .setInteractive()
+//      .setDepth(50)
+//      .setScale(0.01)
+//      .setScrollFactor(0)
+//      .on("pointerdown", () => {
+//        if (this.scale.isFullscreen) {
+//          this.scale.stopFullscreen();
+//        } else {
+//          this.scale.startFullscreen();
+//        }
+//      });
     
-    this.ost = this.sound.add("ost", { loop: true }).play(); // é recomendado deixar trilhas e efeitos primeiro porque demoram mais a carregar
+    //this.ost = this.sound.add("ost", { loop: true }).play(); // é recomendado deixar trilhas e efeitos primeiro porque demoram mais a carregar
     //this.jensonbutton = this.add.sprite(225, 300, 'jensonbutton') // Comando de física (desnecessário p/ um botão)
    
 //    if (this.game.jogadores.primeiro === this.game.socket.id) {
@@ -151,12 +152,15 @@ export default class fase1 extends Phaser.Scene {
 //    } catch (error) {
 //      console.error(error);
 //    }
-
-    this.jensonbutton.setInteractive().on('pointerdown', () => { // a interatividade só acontece ao clicar/tocar no botão
-      this.jensonbutton.play('jensonbutton-pressing')
-      this.honk = this.sound.add("honk", { loop: false}).play()
-      if ('vibrate' in navigator) {
-        navigator.vibrate(100)
+    this.add.image(225, 400, 'jogar')
+    this.jensonbutton = this.physics.add
+      .sprite(225, 400, 'jensonbutton')
+      .setInteractive()
+      .on('pointerdown', () => { // a interatividade só acontece ao clicar/tocar no botão
+        this.jensonbutton.play('jensonbutton-pressing')
+        this.honk = this.sound.add("honk", { loop: false}).play()
+        if ('vibrate' in navigator) {
+          navigator.vibrate(100)
       }
     })
   }

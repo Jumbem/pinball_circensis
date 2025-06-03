@@ -1,7 +1,7 @@
-export default class rankingPersonal extends Phaser.Scene {
+export default class ranking extends Phaser.Scene {
 
   constructor () {
-    super('rankingPersonal')
+    super('ranking')
   }
 
   init () { }

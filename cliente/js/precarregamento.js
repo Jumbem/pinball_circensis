@@ -17,7 +17,7 @@ export default class precarregamento extends Phaser.Scene {
   
   preload () {
     this.load.setPath('assets/')
-    this.load.image('fundo', 'abertura-bg.png')
+    this.load.image('bg', 'abertura-bg.png')
     this.load.spritesheet('jensonbutton', 'jensonbutton.png', {
         frameWidth: 40,
         frameHeight: 29
@@ -25,7 +25,7 @@ export default class precarregamento extends Phaser.Scene {
    }
 
   create () {
-    this.scene.start('sala')
+    this.scene.start('jogar')
    }
 
   update () { }

@@ -1,7 +1,7 @@
-export default class rankingGlobal extends Phaser.Scene {
+export default class newhighscore extends Phaser.Scene {
 
   constructor () {
-    super('rankingGlobal')
+    super('newhighscore')
   }
 
   init () { }
