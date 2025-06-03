@@ -6,9 +6,13 @@ export default class newhighscore extends Phaser.Scene {
 
   init () { }
 
-  preload () { }
+  preload () {
+    this.load.image('newhighscore', 'assets/newhighscore.png')
+  }
 
-  create () { }
+  create () {
+    this.add.image(225, 400, 'newhighscore')
+  }
 
   update () { }
 }

@@ -54,15 +54,15 @@ class Game extends Phaser.Game {
             let msg = message.toString()
             console.log(topic, msg);
 
-            if (msg === 'fase1') {
+            if (msg === 'jogar') {
                 this.scene.stop();
-                this.scene.start("fase1");
+                this.scene.start("jogar");
             }
-            if (msg === 'rankingP') {
-                this.scene.start("rankingPersonal");
+            if (msg === 'ranking') {
+                this.scene.start("ranking");
             }
-            if (msg === 'rankingG') {
-                this.scene.start("rankingGlobal");
+            if (msg === 'creditos') {
+                this.scene.start("creditos");
             }
         })
     }

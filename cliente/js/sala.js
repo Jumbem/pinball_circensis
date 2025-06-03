@@ -29,7 +29,7 @@ export default class sala extends Phaser.Scene {
     this.game.socket.on("jogadores", (jogadores) => {
       if (jogadores.segundo) {
         this.scene.stop()
-        this.scene.start("fase1")
+        this.scene.start("jogar")
       }
     })
   }

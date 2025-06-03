@@ -25,7 +25,7 @@ export default class precarregamento extends Phaser.Scene {
    }
 
   create () {
-    this.scene.start('jogar')
+    this.scene.start('precarregamento')
    }
 
   update () { }
