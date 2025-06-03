@@ -1,3 +1,5 @@
+/*global Phaser*/
+/*eslint no-undef: "error"*/
 export default class precarregamento extends Phaser.Scene {
 
   constructor () {
@@ -14,19 +16,18 @@ export default class precarregamento extends Phaser.Scene {
       progresso.width = 2 + (421 * progress) // 425 - 4 de margem total
     })
   }
-  
+
   preload () {
     this.load.setPath('assets/')
     this.load.image('bg', 'abertura-bg.png')
     this.load.spritesheet('jensonbutton', 'jensonbutton.png', {
-        frameWidth: 40,
-        frameHeight: 29
+      frameWidth: 40,
+      frameHeight: 29
     })
-   }
+  }
 
   create () {
-    this.scene.start('precarregamento')
-   }
+    this.scene.start('jogar')
+  }
 
-  update () { }
 }

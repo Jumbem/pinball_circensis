@@ -8,7 +8,7 @@ export default class jogar extends Phaser.Scene {
 
   init () { }
 
-  preload () { 
+  preload () {
     //this.load.audio("ost", "assets/ost.mp3")
     this.load.audio("honk", "assets/honk.mp3")
     this.load.image("jogar", "assets/jogar.png")
@@ -31,16 +31,17 @@ export default class jogar extends Phaser.Scene {
         this.scene.stop('jogar')
         this.scene.start('abertura')
       })
+
     this.jensonbutton = this.physics.add
       .sprite(225, 400, 'jensonbutton')
       .setInteractive()
       .on('pointerdown', () => { // a interatividade só acontece ao clicar/tocar no botão
         this.jensonbutton.play('jensonbutton-pressing')
-        this.honk = this.sound.add("honk", { loop: false}).play()
+        this.honk = this.sound.add("honk", { loop: false }).play()
         if ('vibrate' in navigator) {
           navigator.vibrate(100)
-      }
-    })
+        }
+      })
   }
 
   update () { }

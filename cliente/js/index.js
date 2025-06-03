@@ -1,4 +1,4 @@
-/*global Phaser, io*/
+/*global Phaser, mqtt, io*/
 /*eslint no-undef: "error"*/
 import config from './config.js'
 import abertura from './abertura.js'
@@ -10,64 +10,63 @@ import jogar from './jogar.js'
 import newhighscore from './newhighscore.js'
 
 class Game extends Phaser.Game {
-    constructor () {
-        super(config)
+  constructor () {
+    super(config)
 
-        this.audio = document.querySelector("audio");
-        this.iceServers = {
-            iceServers: [
-                {
-                    urls: "stun:feira-de-jogos.dev.br",
-                },
-                {
-                    urls: "stun:stun.1.google.com:19302",
-                },
-            ],
-        };
-        this.socket = io();
-        
-        this.socket.on("connect", () => {
-            console.log(`Usuário ${this.socket.id} conectado no servidor`);
-        })
+    this.audio = document.querySelector("audio");
+    this.iceServers = {
+      iceServers: [
+        {
+          urls: "stun:feira-de-jogos.dev.br",
+        },
+        {
+          urls: "stun:stun.1.google.com:19302",
+        },
+      ],
+    };
+    this.socket = io();
 
-        this.scene.add('abertura', abertura);
-        this.scene.add('precarregamento', precarregamento);
-        this.scene.add('sala', sala);
-        this.scene.add('creditos', creditos);
-        this.scene.add('ranking', ranking);
-        this.scene.add('jogar', jogar);
-        this.scene.add('newhighscore', newhighscore);
+    this.socket.on("connect", () => {
+      console.log(`Usuário ${this.socket.id} conectado no servidor`);
+    })
 
-        this.scene.start('abertura');
+    this.scene.add('abertura', abertura);
+    this.scene.add('precarregamento', precarregamento);
+    this.scene.add('sala', sala);
+    this.scene.add('creditos', creditos);
+    this.scene.add('ranking', ranking);
+    this.scene.add('jogar', jogar);
+    this.scene.add('newhighscore', newhighscore);
 
-        this.mqttClient = mqtt.connect("wss://em.sj.ifsc.edu.br/mqtt/")
+    this.scene.start('abertura');
 
-        this.mqttClient.on("connect", () => {
-            console.log("Conectado ao broker MQTT!");
-        });
+    this.mqttClient = mqtt.connect("wss://em.sj.ifsc.edu.br/mqtt/")
 
-        this.mqttClient.subscribe("adc20251/pinball-space/#", () => {
-            console.log("inscrito no tópico adc20251/pinball-space/#")
-        })
+    this.mqttClient.on("connect", () => {
+      console.log("Conectado ao broker MQTT!");
+    });
 
-        this.mqttClient.on("message", (topic, message) => {
-            let msg = message.toString()
-            console.log(topic, msg);
+    this.mqttClient.subscribe("adc20251/pinball-space/#", () => {
+      console.log("inscrito no tópico adc20251/pinball-space/#")
+    })
 
-            if (msg === 'jogar') {
-                this.scene.stop();
-                this.scene.start("jogar");
-            }
-            if (msg === 'ranking') {
-                this.scene.start("ranking");
-            }
-            if (msg === 'creditos') {
-                this.scene.start("creditos");
-            }
-        })
-    }
+    this.mqttClient.on("message", (topic, message) => {
+      let msg = message.toString()
+      console.log(topic, msg);
+
+      if (msg === 'jogar') {
+        this.scene.start("jogar");
+      }
+      if (msg === 'ranking') {
+        this.scene.start("ranking");
+      }
+      if (msg === 'creditos') {
+        this.scene.start("creditos");
+      }
+    })
+  }
 }
 
 window.onload = () => {
-    window.game = new Game()
+  window.game = new Game()
 }
