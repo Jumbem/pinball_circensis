@@ -12,6 +12,10 @@ export default class abertura extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 40
     })
+    this.load.spritesheet('logo', 'assets/logo.png', {
+      frameWidth: 400,
+      frameHeight: 300
+    })
   }
 
   create () {
@@ -22,6 +26,15 @@ export default class abertura extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers('jensonbutton', { start: 0, end: 2 }),
       frameRate: 60
     })
+    this.anims.create({
+      key: 'logo-lights',
+      frames: this.anims.generateFrameNumbers('logo', { start: 0, end: 13 }),
+      frameRate: 5,
+      repeat: -1
+    })
+
+    this.logo = this.add.sprite(225, 150, 'logo').setOrigin(0.5, 0.5);
+    this.logo.anims.play('logo-lights', true);
 
     this.jensonbutton = this.physics.add
       .sprite(225, 400, 'jensonbutton')
