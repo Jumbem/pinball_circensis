@@ -9,8 +9,8 @@ export default class ranking extends Phaser.Scene {
   preload () {
     this.load.image('ranking', 'assets/ranking.png')
     this.load.spritesheet('voltar', 'assets/voltar.png', {
-      frameWidth: 100,
-      frameHeight: 100
+      frameWidth: 32,
+      frameHeight: 32
     })
   }
 
@@ -19,9 +19,12 @@ export default class ranking extends Phaser.Scene {
     this.voltar = this.physics.add
       .sprite(50, 50, 'voltar')
       .setInteractive()
-      .on('pointerdown', () => { // a interatividade só acontece ao clicar/tocar no botão
-        this.scene.stop('jogar')
-        this.scene.start('abertura')
+      .on('pointerdown', () => {
+        this.cameras.main.fadeOut(187);
+        this.cameras.main.once('camerafadeoutcomplete', () => { // a interatividade só acontece ao clicar/tocar no botão
+          this.scene.stop('ranking')
+          this.scene.start('abertura')
+        })
       })
   }
 

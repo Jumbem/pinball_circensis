@@ -13,12 +13,12 @@ export default class jogar extends Phaser.Scene {
     this.load.audio("honk", "assets/honk.mp3")
     this.load.image("jogar", "assets/jogar.png")
     this.load.spritesheet('voltar', 'assets/voltar.png', {
-      frameWidth: 100,
-      frameHeight: 100
+      frameWidth: 32,
+      frameHeight: 32
     })
     this.load.spritesheet('jensonbutton', 'assets/jensonbutton.png', {
-      frameWidth: 64, // os tamanhos devem sempre corresponder ao tamanho do frame do objeto/personagem
-      frameHeight: 40
+      frameWidth: 200,
+      frameHeight: 145
     })
   }
 
@@ -27,11 +27,20 @@ export default class jogar extends Phaser.Scene {
     this.voltar = this.physics.add
       .sprite(50, 50, 'voltar')
       .setInteractive()
-      .on('pointerdown', () => { // a interatividade só acontece ao clicar/tocar no botão
-        this.scene.stop('jogar')
-        this.scene.start('abertura')
+      .on('pointerdown', () => {
+        this.cameras.main.fadeOut(187);
+        this.cameras.main.once('camerafadeoutcomplete', () => {// a interatividade só acontece ao clicar/tocar no botão
+          this.scene.stop('jogar')
+          this.scene.start('abertura')
+        })
       })
-
+    
+    this.anims.create({
+      key: 'jensonbutton-pressing',
+      frames: this.anims.generateFrameNumbers('jensonbutton', { start: 0, end: 2 }),
+      frameRate: 60
+        })
+    
     this.jensonbutton = this.physics.add
       .sprite(225, 400, 'jensonbutton')
       .setInteractive()
