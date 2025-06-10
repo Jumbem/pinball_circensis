@@ -7,22 +7,22 @@ export default class abertura extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('bg', 'assets/abertura-bg.png')
+    this.load.image('abertura', 'assets/abertura.png')
     this.load.spritesheet('logo', 'assets/logo.png', {
       frameWidth: 400,
       frameHeight: 300
     })
     this.load.spritesheet('jogarbutton', 'assets/jogarbutton.png', {
-      frameWidth: 200,
-      frameHeight: 50
+      frameWidth: 300,
+      frameHeight: 75
     })
     this.load.spritesheet('rankingbutton', 'assets/rankingbutton.png', {
-      frameWidth: 200,
-      frameHeight: 50
+      frameWidth: 300,
+      frameHeight: 75
     })
     this.load.spritesheet('creditosbutton', 'assets/creditosbutton.png', {
-      frameWidth: 200,
-      frameHeight: 50
+      frameWidth: 300,
+      frameHeight: 75
     })
     this.load.spritesheet('highscorebutton', 'assets/highscorebutton.png', {
       frameWidth: 200,
@@ -31,7 +31,7 @@ export default class abertura extends Phaser.Scene {
   }
 
   create () {
-    this.add.image(225, 400, 'bg')
+    this.add.image(225, 400, 'abertura')
 
     this.anims.create({
       key: 'logo-lights',
@@ -52,7 +52,7 @@ export default class abertura extends Phaser.Scene {
         })
       });
 
-    this.rankingbutton = this.add.sprite(225, 500, 'rankingbutton')
+    this.rankingbutton = this.add.sprite(225, 525, 'rankingbutton')
       .setInteractive()
       .on('pointerdown', () => {
         this.cameras.main.fadeOut(187);
@@ -62,7 +62,7 @@ export default class abertura extends Phaser.Scene {
         })
       })
     
-    this.creditosbutton = this.add.sprite(225, 600, 'creditosbutton')
+    this.creditosbutton = this.add.sprite(225, 650, 'creditosbutton')
       .setInteractive()
       .on('pointerdown', () => {
         this.cameras.main.fadeOut(187);
