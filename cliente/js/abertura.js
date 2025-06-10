@@ -25,8 +25,8 @@ export default class abertura extends Phaser.Scene {
       frameHeight: 75
     })
     this.load.spritesheet('highscorebutton', 'assets/highscorebutton.png', {
-      frameWidth: 200,
-      frameHeight: 50
+      frameWidth: 300,
+      frameHeight: 75
     })
   }
 
@@ -42,7 +42,7 @@ export default class abertura extends Phaser.Scene {
     this.logo = this.add.sprite(225, 150, 'logo').setOrigin(0.5, 0.5);
     this.logo.anims.play('logo-lights', true);
 
-    this.jogarbutton = this.add.sprite(225, 400, 'jogarbutton')
+    this.jogarbutton = this.add.sprite(225, 350, 'jogarbutton')
       .setInteractive()
       .on('pointerdown', () => {
         this.cameras.main.fadeOut(187);
@@ -52,7 +52,7 @@ export default class abertura extends Phaser.Scene {
         })
       });
 
-    this.rankingbutton = this.add.sprite(225, 525, 'rankingbutton')
+    this.rankingbutton = this.add.sprite(225, 450, 'rankingbutton')
       .setInteractive()
       .on('pointerdown', () => {
         this.cameras.main.fadeOut(187);
@@ -62,13 +62,23 @@ export default class abertura extends Phaser.Scene {
         })
       })
     
-    this.creditosbutton = this.add.sprite(225, 650, 'creditosbutton')
+    this.creditosbutton = this.add.sprite(225, 550, 'creditosbutton')
       .setInteractive()
       .on('pointerdown', () => {
         this.cameras.main.fadeOut(187);
         this.cameras.main.once('camerafadeoutcomplete', () => {
           this.scene.stop();
           this.scene.start('creditos')
+        })
+      })
+    
+    this.highscorebutton = this.add.sprite(225, 700, 'highscorebutton')
+      .setInteractive()
+      .on('pointerdown', () => {
+        this.cameras.main.fadeOut(187);
+        this.cameras.main.once('camerafadeoutcomplete', () => {
+          this.scene.stop();
+          this.scene.start('newhighscore')
         })
       })
     
