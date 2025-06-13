@@ -12,19 +12,19 @@ export default class abertura extends Phaser.Scene {
       frameWidth: 400,
       frameHeight: 300
     })
-    this.load.spritesheet('jogarbutton', 'assets/jogarbutton.png', {
+    this.load.spritesheet('jogarbutton', 'assets/button-jogar.png', {
       frameWidth: 300,
       frameHeight: 75
     })
-    this.load.spritesheet('rankingbutton', 'assets/rankingbutton.png', {
+    this.load.spritesheet('rankingbutton', 'assets/button-ranking.png', {
       frameWidth: 300,
       frameHeight: 75
     })
-    this.load.spritesheet('creditosbutton', 'assets/creditosbutton.png', {
+    this.load.spritesheet('creditosbutton', 'assets/button-creditos.png', {
       frameWidth: 300,
       frameHeight: 75
     })
-    this.load.spritesheet('highscorebutton', 'assets/highscorebutton.png', {
+    this.load.spritesheet('highscorebutton', 'assets/button-highscore.png', {
       frameWidth: 300,
       frameHeight: 75
     })

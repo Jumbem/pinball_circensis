@@ -8,7 +8,7 @@ export default class ranking extends Phaser.Scene {
 
   preload () {
     this.load.image('ranking', 'assets/ranking.png')
-    this.load.spritesheet('voltar', 'assets/voltar.png', {
+    this.load.spritesheet('voltar', 'assets/button-voltar.png', {
       frameWidth: 32,
       frameHeight: 32
     })
@@ -16,6 +16,7 @@ export default class ranking extends Phaser.Scene {
 
   create () {
     this.add.image(225, 400, 'ranking')
+
     this.voltar = this.physics.add
       .sprite(50, 50, 'voltar')
       .setInteractive()
@@ -26,6 +27,14 @@ export default class ranking extends Phaser.Scene {
           this.scene.start('abertura')
         })
       })
+
+    const letra = data.letraSelecionada;
+    this.add.text(255, 100, `${letra}`, {
+      fontFamily: 'Arial',
+      fontSize: '32px',
+      color: '#ffffff',
+      align: 'center'
+    }).setOrigin(0.5, 0.5);
   }
 
   update () { }

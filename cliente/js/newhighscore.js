@@ -8,7 +8,7 @@ export default class newhighscore extends Phaser.Scene {
 
   preload () {
     this.load.image('newhighscore', 'assets/newhighscore.png')
-    this.load.spritesheet('voltar', 'assets/voltar.png', {
+    this.load.spritesheet('voltar', 'assets/button-voltar.png', {
       frameWidth: 32,
       frameHeight: 32
     })
@@ -16,13 +16,17 @@ export default class newhighscore extends Phaser.Scene {
       frameWidth: 100,
       frameHeight: 110
     })
-    this.load.spritesheet('upbutton', 'assets/upbutton.png', {
+    this.load.spritesheet('upbutton', 'assets/button-up.png', {
       frameWidth: 92,
       frameHeight: 104
     })
-    this.load.spritesheet('downbutton', 'assets/downbutton.png', {
+    this.load.spritesheet('downbutton', 'assets/button-down.png', {
       frameWidth: 92,
       frameHeight: 104
+    })
+    this.load.spritesheet('confirmar', 'assets/button-confirmar.png', {
+      frameWidth: 200,
+      frameHeight: 50
     })
   }
 
@@ -53,10 +57,13 @@ export default class newhighscore extends Phaser.Scene {
       repeat: -1
     })
 
+    const alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    let indiceAtual = 0;
+
     this.alphabet = this.add.sprite(125, 490, 'alphabet', 0)
 
-    const totalFrames = this.textures.get('alphabet').frameTotal - 1;
-    this.alphabet.setFrame(0); // Inicia com o primeiro frame
+//  const totalFrames = this.textures.get('alphabet').frameTotal - 1;
+//  this.alphabet.setFrame(0); // Inicia com o primeiro frame
 
     this.upbutton = this.physics.add
       .sprite(125, 380, 'upbutton')
@@ -68,7 +75,7 @@ export default class newhighscore extends Phaser.Scene {
         if (nextFrame === 0) {
           nextFrame = totalFrames - 1; // Se for o primeiro frame, vai para o último
         }
-        this.alphabet.setFrame(nextFrame)
+        this.alphabet.setFrame(indiceAtual)
       })
     
     this.downbutton = this.physics.add
@@ -77,10 +84,20 @@ export default class newhighscore extends Phaser.Scene {
       .setOrigin(0.5, 0.5)
       .setInteractive()
       .on('pointerdown', () => {
-        let prevFrame = (this.alphabet.frame.name + 1) % totalFrames
-        this.alphabet.setFrame(prevFrame)
+        let indiceAtual = = (this.alphabet.frame.name + 1) % totalFrames
+        this.alphabet.setFrame(indiceAtual)
       }
     )
+
+    this.confirmar = this.add.sprite(225, 700, 'confirmar')
+      .setInteractive()
+      .on('pointerdown', () => {
+        this.cameras.main.fadeOut(650)
+        this.cameras.main.once('camerafadeoutcomplete', () => { // a interatividade só acontece ao clicar/tocar no botão
+          this.scene.stop('newhighscore')
+          this.scene.start('ranking')
+        })
+    })
   }      
   
   update () { }
