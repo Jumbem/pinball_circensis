@@ -4,7 +4,9 @@ export default class ranking extends Phaser.Scene {
     super('ranking')
   }
 
-  init () { }
+  init (data) {
+    this.nome = data.nome;
+  }
 
   preload () {
     this.load.image('ranking', 'assets/ranking.png')
@@ -27,6 +29,12 @@ export default class ranking extends Phaser.Scene {
           this.scene.start('abertura')
         })
       })
+
+  this.add.text(255, 100, `Nome: ${this.nome}`, {
+    fontSize: '32px',
+    color: '#FFFFFF',
+    fontFamily: 'Arial'
+  }).setOrigin(0.5, 0.5);
 
   }
 

@@ -12,10 +12,6 @@ export default class newhighscore extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32
     })
-    this.load.spritesheet('alphabet', 'assets/juniors-alphabet-light.png', {
-      frameWidth: 100,
-      frameHeight: 110
-    })
     this.load.spritesheet('upbutton', 'assets/button-up.png', {
       frameWidth: 92,
       frameHeight: 104
@@ -47,7 +43,7 @@ export default class newhighscore extends Phaser.Scene {
     this.letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
     this.indices = [0, 0, 0];
 
-    this.textos = [];
+    this.nome = [];
 
     const baseX = 125;
     const espacamento = 100;
@@ -60,7 +56,7 @@ export default class newhighscore extends Phaser.Scene {
         fontFamily: 'Arial',
         fontStyle: 'bold'
       }).setOrigin(0.5, 0.5);
-      this.textos.push(textoLetra);
+      this.nome.push(textoLetra);
     
       this.anims.create({
         key: 'upbutton-move',
@@ -75,38 +71,49 @@ export default class newhighscore extends Phaser.Scene {
         repeat: -1
       })
 
-      //    const totalFrames = this.textures.get('alphabet').frameTotal - 1;
-      //    this.alphabet.setFrame(0); // Inicia com o primeiro frame
-
+      let upInterval;
       this.upbutton = this.physics.add
-        .sprite(125, 380, 'upbutton')
+        .sprite(x, 380, 'upbutton')
         .play('upbutton-move')
         .setOrigin(0.5, 0.5)
         .setInteractive()
         .on('pointerdown', () => {
           this.indices[i] = (this.indices[i] - 1 + this.letras.length) % this.letras.length;
           this.textos[i].setText(this.letras[this.indices[i]]);
+          upInterval = setInterval(() => {
+            this.indices[i] = (this.indices[i] - 1 + this.letras.length) % this.letras.length;
+            this.textos[i].setText(this.letras[this.indices[i]]);
+          }, 100);
         })
+        .on('pointerup', () => clearInterval(upInterval))
+        .on('pointerout', () => clearInterval(upInterval))
     
+      let downInterval;
       this.downbutton = this.physics.add
-        .sprite(125, 600, 'downbutton')
+        .sprite(x, 600, 'downbutton')
         .play('downbutton-move')
         .setOrigin(0.5, 0.5)
         .setInteractive()
         .on('pointerdown', () => {
           this.indices[i] = (this.indices[i] + 1) % this.letras.length;
           this.textos[i].setText(this.letras[this.indices[i]]);
+          downInterval = setInterval(() => {
+            this.indices[i] = (this.indices[i] + 1) % this.letras.length;
+            this.textos[i].setText(this.letras[this.indices[i]]);
+          }, 100);
         })
+      .on('pointerup', () => clearInterval(downInterval))
+      .on('pointerout', () => clearInterval(downInterval))
     }
     
     this.confirmar = this.add.sprite(225, 700, 'confirmar')
       .setInteractive()
       .on('pointerdown', () => {
-        const textos = this.indices.map(i => this.letras[i]).join('');
+        const nome = this.indices.map(i => this.letras[i]).join('');
         this.cameras.main.fadeOut(650)
         this.cameras.main.once('camerafadeoutcomplete', () => { // a interatividade só acontece ao clicar/tocar no botão
           this.scene.stop('newhighscore')
-          this.scene.start('ranking')
+          this.scene.start('ranking', {nome: nome})
         })
     })
   }      
