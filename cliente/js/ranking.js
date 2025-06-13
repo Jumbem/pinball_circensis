@@ -28,13 +28,6 @@ export default class ranking extends Phaser.Scene {
         })
       })
 
-    const letra = data.letraSelecionada;
-    this.add.text(255, 100, `${letra}`, {
-      fontFamily: 'Arial',
-      fontSize: '32px',
-      color: '#ffffff',
-      align: 'center'
-    }).setOrigin(0.5, 0.5);
   }
 
   update () { }
