@@ -7,8 +7,8 @@ export default class creditos extends Phaser.Scene {
   init () { }
 
   preload () {
-    this.load.image('creditos', 'assets/creditos.png')
-    this.load.spritesheet('voltar', 'assets/button-voltar.png', {
+    this.load.image('creditos', 'assets/backgrounds/creditos.png')
+    this.load.spritesheet('voltar', 'assets/buttons/voltar.png', {
       frameWidth: 32,
       frameHeight: 32
     })

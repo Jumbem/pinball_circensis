@@ -7,20 +7,20 @@ export default class newhighscore extends Phaser.Scene {
   init () { }
 
   preload () {
-    this.load.image('newhighscore', 'assets/newhighscore.png')
-    this.load.spritesheet('voltar', 'assets/button-voltar.png', {
+    this.load.image('newhighscore', 'assets/backgrounds/newhighscore.png')
+    this.load.spritesheet('voltar', 'assets/buttons/voltar.png', {
       frameWidth: 32,
       frameHeight: 32
     })
-    this.load.spritesheet('upbutton', 'assets/button-up.png', {
+    this.load.spritesheet('upbutton', 'assets/buttons/up.png', {
       frameWidth: 92,
       frameHeight: 104
     })
-    this.load.spritesheet('downbutton', 'assets/button-down.png', {
+    this.load.spritesheet('downbutton', 'assets/buttons/down.png', {
       frameWidth: 92,
       frameHeight: 104
     })
-    this.load.spritesheet('confirmar', 'assets/button-confirmar.png', {
+    this.load.spritesheet('confirmar', 'assets/buttons/confirmar.png', {
       frameWidth: 200,
       frameHeight: 50
     })
@@ -28,6 +28,12 @@ export default class newhighscore extends Phaser.Scene {
 
   create () {
     this.add.image(225, 400, 'newhighscore')
+
+    this.anims.create({
+      key: 'confirmar-pressing',
+      frames: this.anims.generateFrameNumbers('confirmar', { start: 0, end: 2 }),
+      frameRate: 10
+    })
 
     this.voltar = this.physics.add
       .sprite(50, 50, 'voltar')
@@ -79,10 +85,10 @@ export default class newhighscore extends Phaser.Scene {
         .setInteractive()
         .on('pointerdown', () => {
           this.indices[i] = (this.indices[i] - 1 + this.letras.length) % this.letras.length;
-          this.textos[i].setText(this.letras[this.indices[i]]);
+          this.nome[i].setText(this.letras[this.indices[i]]);
           upInterval = setInterval(() => {
             this.indices[i] = (this.indices[i] - 1 + this.letras.length) % this.letras.length;
-            this.textos[i].setText(this.letras[this.indices[i]]);
+            this.nome[i].setText(this.letras[this.indices[i]]);
           }, 100);
         })
         .on('pointerup', () => clearInterval(upInterval))
@@ -96,20 +102,27 @@ export default class newhighscore extends Phaser.Scene {
         .setInteractive()
         .on('pointerdown', () => {
           this.indices[i] = (this.indices[i] + 1) % this.letras.length;
-          this.textos[i].setText(this.letras[this.indices[i]]);
+          this.nome[i].setText(this.letras[this.indices[i]]);
           downInterval = setInterval(() => {
             this.indices[i] = (this.indices[i] + 1) % this.letras.length;
-            this.textos[i].setText(this.letras[this.indices[i]]);
+            this.nome[i].setText(this.letras[this.indices[i]]);
           }, 100);
         })
       .on('pointerup', () => clearInterval(downInterval))
       .on('pointerout', () => clearInterval(downInterval))
     }
     
+    const nomesProibidos = ['BCT', 'XXT', 'VSF', 'FDP', 'PQP', 'PAU', 'TNC'];
+
     this.confirmar = this.add.sprite(225, 700, 'confirmar')
       .setInteractive()
       .on('pointerdown', () => {
         const nome = this.indices.map(i => this.letras[i]).join('');
+        if (nomesProibidos.includes(nome)) {
+          alert('Quer bancar o espertinho, mas nós somos mais. Escolha um nome apropriado e tente novamente.')
+          return;
+        }
+        this.confirmar.anims.play('confirmar-pressing', true)
         this.cameras.main.fadeOut(650)
         this.cameras.main.once('camerafadeoutcomplete', () => { // a interatividade só acontece ao clicar/tocar no botão
           this.scene.stop('newhighscore')

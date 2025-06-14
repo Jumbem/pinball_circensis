@@ -11,8 +11,8 @@ export default class jogar extends Phaser.Scene {
   preload () {
     //this.load.audio("ost", "assets/ost.mp3")
     this.load.audio("honk", "assets/honk.mp3")
-    this.load.image("jogar", "assets/jogar.png")
-    this.load.spritesheet('voltar', 'assets/button-voltar.png', {
+    this.load.image("jogar", "assets/backgrounds/jogar.png")
+    this.load.spritesheet('voltar', 'assets/buttons/voltar.png', {
       frameWidth: 32,
       frameHeight: 32
     })

@@ -9,8 +9,8 @@ export default class ranking extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('ranking', 'assets/ranking.png')
-    this.load.spritesheet('voltar', 'assets/button-voltar.png', {
+    this.load.image('ranking', 'assets/backgrounds/ranking.png')
+    this.load.spritesheet('voltar', 'assets/buttons/voltar.png', {
       frameWidth: 32,
       frameHeight: 32
     })
@@ -30,10 +30,11 @@ export default class ranking extends Phaser.Scene {
         })
       })
 
-  this.add.text(255, 100, `Nome: ${this.nome}`, {
+    this.add.text(225, 100, `1º\n${this.nome}`, {
     fontSize: '32px',
     color: '#FFFFFF',
-    fontFamily: 'Arial'
+    fontFamily: 'Arial',
+    align: 'center' // 'left', 'center' ou 'right'
   }).setOrigin(0.5, 0.5);
 
   }
