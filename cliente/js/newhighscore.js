@@ -4,7 +4,9 @@ export default class newhighscore extends Phaser.Scene {
     super('newhighscore')
   }
 
-  init () { }
+  init (data) {
+    this.pontuacao = data.pontuacao || 0; // Recebe a pontuação da cena anterior
+  }
 
   preload () {
     this.load.image('newhighscore', 'assets/backgrounds/newhighscore.png')
@@ -112,21 +114,28 @@ export default class newhighscore extends Phaser.Scene {
       .on('pointerout', () => clearInterval(downInterval))
     }
     
-    const nomesProibidos = ['BCT', 'XXT', 'VSF', 'FDP', 'PQP', 'PAU', 'PAL', 'TNC', 'NAZ', 'PCC'];
+    const nomesProibidos = ['BCT', 'XXT', 'VSF', 'FDP', 'PQP', 'PAU', 'TNC', 'NAZ', 'PCC', 'DST', 'IST', 'XXX'];
 
     this.confirmar = this.add.sprite(225, 700, 'confirmar')
       .setInteractive()
       .on('pointerdown', () => {
         const nome = this.indices.map(i => this.letras[i]).join('');
         if (nomesProibidos.includes(nome)) {
-          alert('Você quis bancar o espertinho, mas nós somos mais. Não aceitamos nomes inapropriados.\nEscolha outro e tente novamente.')
+          alert('Você está querendo bancar o espertinho, mas nós somos mais.\nNão aceitamos exibir nomes inapropriados em nosso ranking.\nEscolha outro apelido e tente novamente.')
           return;
         }
+        // --- SALVANDO NO RANKING ---
+        let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+        ranking.push({ nome: nome, pontos: this.pontuacao }); // nome: escolhido pelo jogador, pontos: recebido da cena anterior
+        ranking.sort((a, b) => b.pontos - a.pontos);
+        ranking = ranking.slice(0, 3); // mantém só os 3 melhores
+        localStorage.setItem('ranking', JSON.stringify(ranking));
+        // ----------------------------
         this.confirmar.anims.play('confirmar-pressing', true)
         this.cameras.main.fadeOut(650)
         this.cameras.main.once('camerafadeoutcomplete', () => { // a interatividade só acontece ao clicar/tocar no botão
           this.scene.stop('newhighscore')
-          this.scene.start('ranking', {nome: nome})
+          this.scene.start('ranking', {nome: nome, pontos: this.pontuacao})
         })
     })
   }      

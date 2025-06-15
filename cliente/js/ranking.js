@@ -6,6 +6,7 @@ export default class ranking extends Phaser.Scene {
 
   init (data) {
     this.nome = data.nome;
+    this.pontuacao = data.pontuacao;
   }
 
   preload () {
@@ -30,12 +31,31 @@ export default class ranking extends Phaser.Scene {
         })
       })
 
-    this.add.text(225, 100, `1º\n${this.nome}`, {
-    fontSize: '32px',
-    color: '#FFFFFF',
-    fontFamily: 'Arial',
-    align: 'center' // 'left', 'center' ou 'right'
-  }).setOrigin(0.5, 0.5);
+    let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+    ranking.forEach((item, i) => {
+      this.add.text(225, 225, `${item.nome}`, {
+        fontSize: '60px',
+        color: '#FFFFFF',
+        fontFamily: 'Arial',
+        fontStyle: 'bold',
+        align: 'center' // 'left', 'center' ou 'right'
+      }).setOrigin(0.5, 0.5);
+    
+      this.add.text(225, 460, `${item.pontos}`, {
+        fontSize: '25px',
+        color: '#FFFFFF',
+        fontFamily: 'Arial',
+        fontStyle: 'bold', // 'normal', 'bold', 'italic' ou 'bold italic'
+        align: 'center'
+      }).setOrigin(0.5, 0.5);
+    })
+
+    this.add.text(70, 600, 'Sua maior pontuação:', {
+      fontSize: '32px',
+      color: '#FFFFFF',
+      fontFamily: 'Arial',
+      align: 'center'
+    })
 
   }
 
