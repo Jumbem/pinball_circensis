@@ -112,14 +112,14 @@ export default class newhighscore extends Phaser.Scene {
       .on('pointerout', () => clearInterval(downInterval))
     }
     
-    const nomesProibidos = ['BCT', 'XXT', 'VSF', 'FDP', 'PQP', 'PAU', 'TNC'];
+    const nomesProibidos = ['BCT', 'XXT', 'VSF', 'FDP', 'PQP', 'PAU', 'PAL', 'TNC', 'NAZ', 'PCC'];
 
     this.confirmar = this.add.sprite(225, 700, 'confirmar')
       .setInteractive()
       .on('pointerdown', () => {
         const nome = this.indices.map(i => this.letras[i]).join('');
         if (nomesProibidos.includes(nome)) {
-          alert('Quer bancar o espertinho, mas nós somos mais. Escolha um nome apropriado e tente novamente.')
+          alert('Você quis bancar o espertinho, mas nós somos mais. Não aceitamos nomes inapropriados.\nEscolha outro e tente novamente.')
           return;
         }
         this.confirmar.anims.play('confirmar-pressing', true)
