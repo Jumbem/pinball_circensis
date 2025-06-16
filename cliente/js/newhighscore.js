@@ -116,6 +116,14 @@ export default class newhighscore extends Phaser.Scene {
     
     const nomesProibidos = ['BCT', 'XXT', 'VSF', 'FDP', 'PQP', 'PAU', 'TNC', 'NAZ', 'PCC', 'DST', 'IST', 'XXX'];
 
+    function salvarRanking(nome, pontos) {
+      let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+      ranking.push({ nome: nome, pontos: pontos }); // nome: escolhido pelo jogador, pontos: recebido da cena anterior
+      ranking.sort((a, b) => b.pontos - a.pontos);
+      ranking = ranking.slice(0, 3); // mantém só os 3 melhores
+      localStorage.setItem('ranking', JSON.stringify(ranking));
+    }
+
     this.confirmar = this.add.sprite(225, 700, 'confirmar')
       .setInteractive()
       .on('pointerdown', () => {
@@ -124,13 +132,7 @@ export default class newhighscore extends Phaser.Scene {
           alert('Você está querendo bancar o espertinho, mas nós somos mais.\nNão aceitamos exibir nomes inapropriados em nosso ranking.\nEscolha outro apelido e tente novamente.')
           return;
         }
-        // --- SALVANDO NO RANKING ---
-        let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
-        ranking.push({ nome: nome, pontos: this.pontuacao }); // nome: escolhido pelo jogador, pontos: recebido da cena anterior
-        ranking.sort((a, b) => b.pontos - a.pontos);
-        ranking = ranking.slice(0, 3); // mantém só os 3 melhores
-        localStorage.setItem('ranking', JSON.stringify(ranking));
-        // ----------------------------
+        salvarRanking(nome, this.pontuacao)
         this.confirmar.anims.play('confirmar-pressing', true)
         this.cameras.main.fadeOut(650)
         this.cameras.main.once('camerafadeoutcomplete', () => { // a interatividade só acontece ao clicar/tocar no botão

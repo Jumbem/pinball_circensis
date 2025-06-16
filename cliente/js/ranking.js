@@ -41,7 +41,7 @@ export default class ranking extends Phaser.Scene {
         align: 'center' // 'left', 'center' ou 'right'
       }).setOrigin(0.5, 0.5);
     
-      this.add.text(225, 460, `${item.pontos}`, {
+      this.add.text(225, 465, `${item.pontos}`, {
         fontSize: '25px',
         color: '#FFFFFF',
         fontFamily: 'Arial',

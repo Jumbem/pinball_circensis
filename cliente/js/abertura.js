@@ -75,12 +75,12 @@ export default class abertura extends Phaser.Scene {
     this.rankingbutton = this.add.sprite(225, 450, 'rankingbutton')
       .setInteractive()
       .on('pointerdown', () => {
-        this.rankingbutton.anims.play('rankingbutton-pressing', true);
         let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
         if (ranking.length < 3) {
           alert('O ranking só estará disponível após três jogadores diferentes registrarem seus primeiros pontos. Venha jogar você também!');
           return;
         } else {
+          this.rankingbutton.anims.play('rankingbutton-pressing', true);
           this.rankingbutton.once('animationcomplete', () => {
             this.cameras.main.fadeOut(250);
             this.cameras.main.once('camerafadeoutcomplete', () => {

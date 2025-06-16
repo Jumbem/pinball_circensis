@@ -40,13 +40,15 @@ export default class jogar extends Phaser.Scene {
       })
     
     this.pontuacao = 0; // Inicializa a pontuação do jogador
-    
-    let ranking = JSON.parse(localStorage.getItem('ranking')) || []; // Recupera o ranking do localStorage ou inicializa como vazio
-    // Verifica se é um novo recorde
-    const novoRecorde = (
-      ranking.length < 3 ||
-      this.pontuacao > Math.min(...ranking.map(r => r.pontos))
-    )
+
+    function novoRecorde (pontuacaoAtual) {
+      let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+      let maiorPontuacao = 0;
+      if (ranking.length > 0) {
+        maiorPontuacao = ranking[0].pontos || 0; // Assume que o primeiro item é o de maior pontuação
+      }
+      return pontuacaoAtual > maiorPontuacao;
+    }
 
     this.textoPontuacao = this.add.text(125, 600, `Pontuação: ${this.pontuacao}`, {
       fontSize: '32px',
@@ -65,7 +67,7 @@ export default class jogar extends Phaser.Scene {
         if ('vibrate' in navigator) {
           navigator.vibrate(100)
         }
-        if (novoRecorde && this.pontuacao > 0) {
+        if (novoRecorde(this.pontuacao)) {
           this.textoPontuacao.setText(`Pontuação: ${this.pontuacao}\n(Novo Recorde!)`)
         }
       })
@@ -74,12 +76,7 @@ export default class jogar extends Phaser.Scene {
       .sprite(225, 700, 'fim')
       .setInteractive()
       .on('pointerdown', () => { // a interatividade só acontece ao clicar/tocar no botão
-        let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
-        const novoRecorde = (
-          ranking.length < 3 ||
-          this.pontuacao > Math.min(...ranking.map(r => r.pontos))
-        )
-        if (novoRecorde && this.pontuacao > 0) {
+         if (novoRecorde(this.pontuacao)) {
           this.cameras.main.fadeOut(187);
           this.cameras.main.once('camerafadeoutcomplete', () => {
             this.scene.stop('jogar')
