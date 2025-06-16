@@ -9,9 +9,9 @@ export default class jogar extends Phaser.Scene {
   init () { }
 
   preload () {
-    //this.load.audio("ost", "assets/ost.mp3")
-    this.load.audio("honk", "assets/honk.mp3")
-    this.load.image("jogar", "assets/backgrounds/jogar.png")
+    this.load.audio('botao', 'assets/sfx/botao.mp3')
+    this.load.audio('honk', 'assets/honk.mp3')
+    this.load.image('jogar', 'assets/backgrounds/jogar.png')
     this.load.spritesheet('voltar', 'assets/buttons/voltar.png', {
       frameWidth: 32,
       frameHeight: 32
@@ -28,10 +28,12 @@ export default class jogar extends Phaser.Scene {
 
   create () {
     this.add.image(225, 400, 'jogar')
+    
     this.voltar = this.add
       .sprite(50, 50, 'voltar')
       .setInteractive()
       .on('pointerdown', () => {
+        this.sound.play('botao', { loop: false });
         this.cameras.main.fadeOut(187);
         this.cameras.main.once('camerafadeoutcomplete', () => {// a interatividade só acontece ao clicar/tocar no botão
           this.scene.stop('jogar')
@@ -40,6 +42,15 @@ export default class jogar extends Phaser.Scene {
       })
     
     this.pontuacao = 0; // Inicializa a pontuação do jogador
+
+    function podio(pontuacaoAtual) {
+      let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+      if (ranking.length < 3) {
+        return pontuacaoAtual > 0;
+      }
+      let menorPontuacao = Math.min(...ranking.map(item => item.pontos));
+      return pontuacaoAtual > menorPontuacao;
+    }
 
     function novoRecorde (pontuacaoAtual) {
       let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
@@ -76,7 +87,7 @@ export default class jogar extends Phaser.Scene {
       .sprite(225, 700, 'fim')
       .setInteractive()
       .on('pointerdown', () => { // a interatividade só acontece ao clicar/tocar no botão
-         if (novoRecorde(this.pontuacao)) {
+         if (podio(this.pontuacao)) {
           this.cameras.main.fadeOut(187);
           this.cameras.main.once('camerafadeoutcomplete', () => {
             this.scene.stop('jogar')

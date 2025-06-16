@@ -9,6 +9,8 @@ export default class newhighscore extends Phaser.Scene {
   }
 
   preload () {
+    this.load.audio('soNasPretas', 'assets/ost/so-nas-pretas.mp3')
+    this.load.audio('botao', 'assets/sfx/botao.mp3')
     this.load.image('newhighscore', 'assets/backgrounds/newhighscore.png')
     this.load.spritesheet('voltar', 'assets/buttons/voltar.png', {
       frameWidth: 32,
@@ -29,6 +31,9 @@ export default class newhighscore extends Phaser.Scene {
   }
 
   create () {
+    this.soNasPretas = this.sound.add('soNasPretas', { loop: true });
+    this.soNasPretas.play();
+
     this.add.image(225, 400, 'newhighscore')
 
     this.anims.create({
@@ -41,8 +46,10 @@ export default class newhighscore extends Phaser.Scene {
       .sprite(50, 50, 'voltar')
       .setInteractive()
       .on('pointerdown', () => {
+        this.sound.play('botao', { loop: false });
         this.cameras.main.fadeOut(187);
         this.cameras.main.once('camerafadeoutcomplete', () => {// a interatividade só acontece ao clicar/tocar no botão
+          this.soNasPretas.stop();
           this.scene.stop('newhighscore')
           this.scene.start('abertura')
         })
@@ -114,7 +121,7 @@ export default class newhighscore extends Phaser.Scene {
       .on('pointerout', () => clearInterval(downInterval))
     }
     
-    const nomesProibidos = ['BCT', 'XXT', 'VSF', 'FDP', 'PQP', 'PAU', 'TNC', 'NAZ', 'PCC', 'DST', 'IST', 'XXX'];
+    const nomesProibidos = ['BCT', 'XXT', 'VSF', 'FDP', 'PQP', 'PAU', 'TNC', 'PCC', 'DST', 'IST', 'XXX', 'CUU'];
 
     function salvarRanking(nome, pontos) {
       let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
@@ -136,6 +143,7 @@ export default class newhighscore extends Phaser.Scene {
         this.confirmar.anims.play('confirmar-pressing', true)
         this.cameras.main.fadeOut(650)
         this.cameras.main.once('camerafadeoutcomplete', () => { // a interatividade só acontece ao clicar/tocar no botão
+          this.soNasPretas.stop();
           this.scene.stop('newhighscore')
           this.scene.start('ranking', {nome: nome, pontos: this.pontuacao})
         })

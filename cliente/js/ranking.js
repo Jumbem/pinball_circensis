@@ -10,6 +10,8 @@ export default class ranking extends Phaser.Scene {
   }
 
   preload () {
+    this.load.audio('botao', 'assets/sfx/botao.mp3')
+    this.load.audio('tiroEqueda', 'assets/ost/tiro-e-queda.mp3')
     this.load.image('ranking', 'assets/backgrounds/ranking.png')
     this.load.spritesheet('voltar', 'assets/buttons/voltar.png', {
       frameWidth: 32,
@@ -18,12 +20,17 @@ export default class ranking extends Phaser.Scene {
   }
 
   create () {
+    this.tiroEqueda = this.sound.add('tiroEqueda', { loop: true });
+    this.tiroEqueda.play();
+
     this.add.image(225, 400, 'ranking')
 
     this.voltar = this.physics.add
       .sprite(50, 50, 'voltar')
       .setInteractive()
       .on('pointerdown', () => {
+        this.sound.play('botao', { loop: false });
+        this.tiroEqueda.stop();
         this.cameras.main.fadeOut(187);
         this.cameras.main.once('camerafadeoutcomplete', () => { // a interatividade só acontece ao clicar/tocar no botão
           this.scene.stop('ranking')
@@ -32,22 +39,34 @@ export default class ranking extends Phaser.Scene {
       })
 
     let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
-    ranking.forEach((item, i) => {
-      this.add.text(225, 225, `${item.nome}`, {
-        fontSize: '60px',
-        color: '#FFFFFF',
-        fontFamily: 'Arial',
-        fontStyle: 'bold',
-        align: 'center' // 'left', 'center' ou 'right'
-      }).setOrigin(0.5, 0.5);
     
-      this.add.text(225, 465, `${item.pontos}`, {
-        fontSize: '25px',
-        color: '#FFFFFF',
-        fontFamily: 'Arial',
-        fontStyle: 'bold', // 'normal', 'bold', 'italic' ou 'bold italic'
-        align: 'center'
-      }).setOrigin(0.5, 0.5);
+    const posicoes = [
+      { x: 228, y: 230 }, // P1
+      { x: 90, y: 290 }, // P2
+      { x: 370, y: 330 }  // P3
+    ]
+
+    const offsetPontuacao = [235, 175, 138]
+
+    ranking.forEach((item, i) => {
+      if (i < 3) {
+        this.add.text(posicoes[i].x, posicoes[i].y, `${item.nome}`, {
+          fontSize: '45px',
+          color: '#FFFFFF',
+          fontFamily: 'Arial',
+          fontStyle: 'bold',
+          align: 'center' // 'left', 'center' ou 'right'
+        }).setOrigin(0.5, 0.5);
+
+        this.add.text(posicoes[i].x, posicoes[i].y + offsetPontuacao[i], `${item.pontos}`, {
+          fontSize: '25px',
+          color: '#FFFFFF',
+          fontFamily: 'Arial',
+          fontStyle: 'bold', // 'normal', 'bold', 'italic' ou 'bold italic'
+          align: 'center'
+        }).setOrigin(0.5, 0.5);
+      }
+
     })
 
     this.add.text(70, 600, 'Sua maior pontuação:', {

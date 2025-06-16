@@ -7,6 +7,8 @@ export default class abertura extends Phaser.Scene {
   }
 
   preload () {
+    this.load.audio('charliechaplin', 'assets/ost/charlie-chaplin-walk.mp3')
+    this.load.audio('botao', 'assets/sfx/botao.mp3')
     this.load.image('abertura', 'assets/backgrounds/abertura.png')
     this.load.spritesheet('logo', 'assets/logo.png', {
       frameWidth: 315,
@@ -31,12 +33,14 @@ export default class abertura extends Phaser.Scene {
   }
 
   create () {
+    this.charliechaplin = this.sound.add('charliechaplin', { loop: true });
+    this.charliechaplin.play();
     this.add.image(225, 400, 'abertura')
 
     this.anims.create({
       key: 'logo-lights',
       frames: this.anims.generateFrameNumbers('logo', { start: 0, end: 15 }),
-      frameRate: 4,
+      frameRate: 10,
       repeat: -1
     })
     
@@ -62,10 +66,12 @@ export default class abertura extends Phaser.Scene {
     this.jogarbutton = this.add.sprite(225, 350, 'jogarbutton')
       .setInteractive()
       .on('pointerdown', () => {
+        this.sound.play('botao', { loop: false });
         this.jogarbutton.anims.play('jogarbutton-pressing', true);
         this.jogarbutton.once('animationcomplete', () => {
           this.cameras.main.fadeOut(250);
           this.cameras.main.once('camerafadeoutcomplete', () => {
+            this.charliechaplin.stop();
             this.scene.stop();
             this.scene.start('precarregamento')
           })
@@ -75,6 +81,7 @@ export default class abertura extends Phaser.Scene {
     this.rankingbutton = this.add.sprite(225, 450, 'rankingbutton')
       .setInteractive()
       .on('pointerdown', () => {
+        this.sound.play('botao', { loop: false });
         let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
         if (ranking.length < 3) {
           alert('O ranking só estará disponível após três jogadores diferentes registrarem seus primeiros pontos. Venha jogar você também!');
@@ -84,6 +91,7 @@ export default class abertura extends Phaser.Scene {
           this.rankingbutton.once('animationcomplete', () => {
             this.cameras.main.fadeOut(250);
             this.cameras.main.once('camerafadeoutcomplete', () => {
+              this.charliechaplin.stop();
               this.scene.stop();
               this.scene.start('ranking')
             })
@@ -94,23 +102,15 @@ export default class abertura extends Phaser.Scene {
     this.creditosbutton = this.add.sprite(225, 550, 'creditosbutton')
       .setInteractive()
       .on('pointerdown', () => {
+        this.sound.play('botao', { loop: false });
         this.creditosbutton.anims.play('creditosbutton-pressing', true);
         this.creditosbutton.once('animationcomplete', () => { // Fade out the camera and switch to the 'creditos' scene
           this.cameras.main.fadeOut(250);
           this.cameras.main.once('camerafadeoutcomplete', () => {
+            this.charliechaplin.stop();
             this.scene.stop();
             this.scene.start('creditos')
           })
-        })
-      })
-    
-    this.highscorebutton = this.add.sprite(225, 700, 'highscorebutton')
-      .setInteractive()
-      .on('pointerdown', () => {
-        this.cameras.main.fadeOut(187);
-        this.cameras.main.once('camerafadeoutcomplete', () => {
-          this.scene.stop();
-          this.scene.start('newhighscore')
         })
       })
     
