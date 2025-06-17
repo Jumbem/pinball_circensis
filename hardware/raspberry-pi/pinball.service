@@ -1,5 +1,5 @@
 [Unit]
-Description=Arcade
+Description=Pinball et Circensis
 After=network.service
 
 [Service]
