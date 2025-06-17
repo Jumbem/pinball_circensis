@@ -25,7 +25,7 @@ cd /etc/systemd/system
 sudo ln -s /home/pi/pinball_circensis/hardware/raspberry-pi/pinball.service
 sudo systemctl daemon-reload
 sudo systemctl enable pinball
-sudo systemctl start pinball
+sudo systemctl restart pinball
 
 # Monitorar os logs do serviço
 sudo journalctl -f -u pinball.service
