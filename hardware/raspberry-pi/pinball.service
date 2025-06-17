@@ -1,0 +1,12 @@
+[Unit]
+Description=Arcade
+After=network.service
+
+[Service]
+WorkingDirectory=/home/pi/pinball_circensis
+ExecStart=/home/pi/pinball_circensis/venv/bin/python pinball.py
+User=pi
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
