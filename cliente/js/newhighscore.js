@@ -121,7 +121,7 @@ export default class newhighscore extends Phaser.Scene {
       .on('pointerout', () => clearInterval(downInterval))
     }
     
-    const nomesProibidos = ['BCT', 'XXT', 'VSF', 'FDP', 'PQP', 'PAU', 'TNC', 'PCC', 'DST', 'IST', 'XXX', 'CUU'];
+    const nomesProibidos = ['BCT', 'XXT', 'VSF', 'FDP', 'FDS', 'PQP', 'PAU', 'TNC', 'PCC', 'DST', 'IST', 'XXX', 'CUU', 'UCU', 'SEX', 'CUM', 'PNC', 'PIK', 'KUH', 'CUH', 'KHU', 'CUS', 'KUS', 'PCD', 'PRR', 'SCX', 'CRL', 'KRL', 'HIV', 'AID', 'PPK', 'FAG', 'GAY', 'YAG', 'SFD', 'SIF', 'JOB', 'XVD', 'PUM', 'DIC', 'DIK', 'BBC', 'ASS', 'TIT'];
 
     function salvarRanking(nome, pontos) {
       let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
