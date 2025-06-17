@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from os import getenv
-import rpi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import paho.mqtt.client as mqtt
 
 load_dotenv()
