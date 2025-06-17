@@ -23,8 +23,8 @@ def on_message(client, userdata, msg):
 
 
 def setup():
-    GPIO.cleanup()
     GPIO.setmode(GPIO.BOARD)
+    GPIO.setwarnings(False)
     GPIO.setup(led, GPIO.OUT)
     GPIO.output(led, GPIO.LOW)
 
