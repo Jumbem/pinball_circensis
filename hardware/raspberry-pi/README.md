@@ -22,7 +22,7 @@ pip install -r hardware/raspberry-pi/requirements.txt
 
 # Instalar e ativar o serviço
 cd /etc/systemd/system
-ln -s /home/pi/pinball_circensis/hardware/raspberry-pi/pinball.service
+sudo ln -s /home/pi/pinball_circensis/hardware/raspberry-pi/pinball.service
 sudo systemctl daemon-reload
 sudo systemctl enable pinball
 sudo systemctl start pinball
