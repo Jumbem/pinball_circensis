@@ -7,6 +7,7 @@ export default class ranking extends Phaser.Scene {
   init (data) {
     this.nome = data.nome;
     this.pontuacao = data.pontuacao;
+    this.game.cenaAtual = 'ranking';
   }
 
   preload () {

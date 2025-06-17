@@ -1,17 +1,17 @@
 /*global Phaser, mqtt, io*/
 /*eslint no-undef: "error"*/
-import config from './config.js'
-import abertura from './abertura.js'
-import precarregamento from './precarregamento.js'
-import sala from './sala.js'
-import creditos from './creditos.js'
-import ranking from './ranking.js'
-import jogar from './jogar.js'
-import newhighscore from './newhighscore.js'
+import config from "./config.js";
+import abertura from "./abertura.js";
+import precarregamento from "./precarregamento.js";
+import sala from "./sala.js";
+import creditos from "./creditos.js";
+import ranking from "./ranking.js";
+import jogar from "./jogar.js";
+import newhighscore from "./newhighscore.js";
 
 class Game extends Phaser.Game {
-  constructor () {
-    super(config)
+  constructor() {
+    super(config);
 
     this.audio = document.querySelector("audio");
     this.iceServers = {
@@ -28,45 +28,51 @@ class Game extends Phaser.Game {
 
     this.socket.on("connect", () => {
       console.log(`Usuário ${this.socket.id} conectado no servidor`);
-    })
+    });
 
-    this.scene.add('abertura', abertura);
-    this.scene.add('precarregamento', precarregamento);
-    this.scene.add('sala', sala);
-    this.scene.add('creditos', creditos);
-    this.scene.add('ranking', ranking);
-    this.scene.add('jogar', jogar);
-    this.scene.add('newhighscore', newhighscore);
+    this.scene.add("abertura", abertura);
+    this.scene.add("precarregamento", precarregamento);
+    this.scene.add("sala", sala);
+    this.scene.add("creditos", creditos);
+    this.scene.add("ranking", ranking);
+    this.scene.add("jogar", jogar);
+    this.scene.add("newhighscore", newhighscore);
 
-    this.scene.start('abertura');
-
-    this.mqttClient = mqtt.connect("wss://em.sj.ifsc.edu.br/mqtt/")
+    this.mqttClient = mqtt.connect("wss://feira-de-jogos.dev.br/mqtt/");
 
     this.mqttClient.on("connect", () => {
       console.log("Conectado ao broker MQTT!");
     });
 
-    this.mqttClient.subscribe("adc20251/pinball-space/#", () => {
-      console.log("inscrito no tópico adc20251/pinball-space/#")
-    })
+    this.mqttTopic = "adc20251/pinball-et-circensis/";
+    this.mqttClient.subscribe(`${this.mqttTopic}#`, { qos: 1 }, () => {
+      console.log(`Inscrito no tópico ${this.mqttTopic}#`);
+    });
 
+    this.cenaAtual = "abertura";
+    this.scene.start(this.cenaAtual);
+
+    this.placar = "0";
     this.mqttClient.on("message", (topic, message) => {
-      let msg = message.toString()
+      let msg = message.toString();
       console.log(topic, msg);
 
-      if (msg === 'jogar') {
+      if (topic === `${this.mqttTopic}jogar`) {
+        this.scene.stop(this.cenaAtual);
         this.scene.start("jogar");
-      }
-      if (msg === 'ranking') {
+      } else if (topic === `${this.mqttTopic}ranking`) {
+        this.scene.stop(this.cenaAtual);
         this.scene.start("ranking");
-      }
-      if (msg === 'creditos') {
+      } else if (topic === `${this.mqttTopic}placar`) {
+        this.placar = msg;
+      } else if (topic === `${this.mqttTopic}creditos`) {
+        this.scene.stop(this.cenaAtual);
         this.scene.start("creditos");
       }
-    })
+    });
   }
 }
 
 window.onload = () => {
-  window.game = new Game()
-}
+  window.game = new Game();
+};
