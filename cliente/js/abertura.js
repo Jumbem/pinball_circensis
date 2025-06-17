@@ -6,6 +6,10 @@ export default class abertura extends Phaser.Scene {
     super('abertura')
   }
 
+  init() { 
+    this.game.cenaAtual = "abertura";
+  }
+  
   preload () {
     this.load.audio('charliechaplin', 'assets/ost/charlie-chaplin-walk.mp3')
     this.load.audio('botao', 'assets/sfx/botao.mp3')

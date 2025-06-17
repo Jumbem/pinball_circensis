@@ -4,7 +4,9 @@ export default class sala extends Phaser.Scene {
     super('sala')
   }
 
-  init () { }
+  init() {
+    this.game.cenaAtual = "sala";
+   }
 
   preload () { }
 
