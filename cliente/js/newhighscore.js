@@ -121,7 +121,12 @@ export default class newhighscore extends Phaser.Scene {
       .on('pointerout', () => clearInterval(downInterval))
     }
     
-    const nomesProibidos = ['BCT', 'XXT', 'VSF', 'FDP', 'FDS', 'PQP', 'PAU', 'TNC', 'PCC', 'DST', 'IST', 'XXX', 'CUU', 'UCU', 'SEX', 'CUM', 'PNC', 'PIK', 'KUH', 'CUH', 'KHU', 'CUS', 'KUS', 'PCD', 'PRR', 'SCX', 'CRL', 'KRL', 'HIV', 'AID', 'PPK', 'FAG', 'GAY', 'YAG', 'SFD', 'SIF', 'JOB', 'XVD', 'PUM', 'DIC', 'DIK', 'BBC', 'ASS', 'TIT'];
+    const nomesProibidos = ['BCT', 'XXT', 'VSF', 'FDP', 'FDS', 'PQP', 'PAU', 'TNC', 'PCC', 'DST', 'IST', 'XXX', 'CUU', 'UCU', 'SEX', 'CUM', 'PNC', 'PIK', 'KUH', 'CUH', 'KHU', 'CUS', 'KUS', 'PCD', 'PRR', 'SCX', 'CRL', 'KRL', 'HIV', 'AID', 'PPK', 'FAG', 'GAY', 'YAG', 'SFD', 'SIF', 'JOB', 'XVD', 'PUM', 'DIC', 'DIK', 'BBC', 'ASS', 'TIT', 'NAZ', 'NZI', 'NGG', 'NIG', 'NGR'];
+
+    function nomeRepetido(nome) {
+      let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+      return ranking.some(item => item.nome === nome); // verifica se o nome a ser selecionado já está no ranking
+    }
 
     function salvarRanking(nome, pontos) {
       let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
@@ -136,7 +141,11 @@ export default class newhighscore extends Phaser.Scene {
       .on('pointerdown', () => {
         const nome = this.indices.map(i => this.letras[i]).join('');
         if (nomesProibidos.includes(nome)) {
-          alert('Você está querendo bancar o espertinho, mas nós somos mais.\nNão aceitamos exibir nomes inapropriados em nosso ranking.\nEscolha outro apelido e tente novamente.')
+          alert('Não aceitamos exibir nomes inapropriados em nosso ranking.\nEscolha outro apelido e tente novamente.')
+          return;
+        }
+        if (nomeRepetido(nome)) {
+          alert('Verificamos em nosso ranking que um jogador já está usando esse apelido. Escolha outro e tente novamente.')
           return;
         }
         salvarRanking(nome, this.pontuacao)
