@@ -128,6 +128,8 @@ async def saidas():
 
 
 def on_sensor_triggered(channel):
+    global sensores
+    
     sensor_name = next((name for name, pin in sensores.items() if pin == channel), None)
     if sensor_name:
         print(f"Sensor {sensor_name} acionado")
@@ -161,7 +163,7 @@ async def main():
     malabarista_task = None
     lateral_task = None
     saidas_task = None
-    
+
     try:
         while True:
             if modo == "espera":
