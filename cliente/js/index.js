@@ -8,6 +8,7 @@ import creditos from "./creditos.js";
 import ranking from "./ranking.js";
 import jogar from "./jogar.js";
 import newhighscore from "./newhighscore.js";
+import placar from "./placar.js";
 
 class Game extends Phaser.Game {
   constructor() {
@@ -37,6 +38,7 @@ class Game extends Phaser.Game {
     this.scene.add("ranking", ranking);
     this.scene.add("jogar", jogar);
     this.scene.add("newhighscore", newhighscore);
+    this.scene.add("placar", placar);
 
     this.mqttClient = mqtt.connect("wss://feira-de-jogos.dev.br/mqtt/");
 

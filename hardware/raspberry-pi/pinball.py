@@ -91,16 +91,20 @@ async def malabarista():
 async def lateral():
     print("Lateral iniciado")
     while True:
-        # GPIO.output(leds["Lateral1"], GPIO.HIGH)
+        # GPIO.output(leds["Lateral1"], GPIO.LOW)
         # GPIO.output(leds["Lateral2"], GPIO.LOW)
-        # GPIO.output(leds["Lateral3"], GPIO.LOW)
+        # GPIO.output(leds["Lateral3"], GPIO.HIGH)
         # await asyncio.sleep(1)
         # GPIO.output(leds["Lateral1"], GPIO.LOW)
         # GPIO.output(leds["Lateral2"], GPIO.HIGH)
         # GPIO.output(leds["Lateral3"], GPIO.LOW)
         # await asyncio.sleep(1)
-        # GPIO.output(leds["Lateral1"], GPIO.LOW)
+        # GPIO.output(leds["Lateral1"], GPIO.HIGH)
         # GPIO.output(leds["Lateral2"], GPIO.LOW)
+        # GPIO.output(leds["Lateral3"], GPIO.LOW)
+        # await asyncio.sleep(1)
+        # GPIO.output(leds["Lateral1"], GPIO.HIGH)
+        # GPIO.output(leds["Lateral2"], GPIO.HIGH)
         # GPIO.output(leds["Lateral3"], GPIO.HIGH)
         await asyncio.sleep(1)
         print("Laterais piscando...")
@@ -112,19 +116,24 @@ async def saidas():
         # GPIO.output(leds["Saidas1"], GPIO.HIGH)
         # GPIO.output(leds["Saidas2"], GPIO.LOW)
         # GPIO.output(leds["Saidas3"], GPIO.LOW)
-        # GPIO.output(leds["Saidas4"], GPIO.LOW)
+        # GPIO.output(leds["Saidas4"], GPIO.HIGH)
         # await asyncio.sleep(1)
         # GPIO.output(leds["Saidas1"], GPIO.LOW)
         # GPIO.output(leds["Saidas2"], GPIO.HIGH)
-        # GPIO.output(leds["Saidas3"], GPIO.LOW)
-        # GPIO.output(leds["Saidas4"], GPIO.LOW)
-        # await asyncio.sleep(1)
-        # GPIO.output(leds["Saidas1"], GPIO.LOW)
-        # GPIO.output(leds["Saidas2"], GPIO.LOW)
         # GPIO.output(leds["Saidas3"], GPIO.HIGH)
         # GPIO.output(leds["Saidas4"], GPIO.LOW)
         await asyncio.sleep(1)
         print("Saídas piscando...")
+
+async def rampa():
+    print("Rampa iniciada")
+    while True:
+        # GPIO.output(leds["Rampa"], GPIO.HIGH)
+        # await asyncio.sleep(1)
+        # GPIO.output(leds["Rampa"], GPIO.LOW)
+        await asyncio.sleep(1)
+        print("Rampa piscando...")
+
 
 
 def on_sensor_triggered(channel):
