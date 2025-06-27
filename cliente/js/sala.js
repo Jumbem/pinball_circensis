@@ -1,19 +1,20 @@
 export default class sala extends Phaser.Scene {
-
-  constructor () {
-    super('sala')
+  constructor() {
+    super("sala");
   }
 
-  init () { }
+  init() {
+    this.game.cenaAtual = "sala";
+  }
 
-  preload () { }
+  preload() {}
 
-  create () { 
+  create() {
     this.salas = [
-      { x: 225, y: 160, numero: '1' },
-      { x: 225, y: 320, numero: '2' },
-      { x: 225, y: 480, numero: '3' },
-      { x: 225, y: 640, numero: '4' },
+      { x: 225, y: 160, numero: "1" },
+      { x: 225, y: 320, numero: "2" },
+      { x: 225, y: 480, numero: "3" },
+      { x: 225, y: 640, numero: "4" },
     ];
 
     this.salas.forEach((sala) => {
@@ -28,11 +29,11 @@ export default class sala extends Phaser.Scene {
 
     this.game.socket.on("jogadores", (jogadores) => {
       if (jogadores.segundo) {
-        this.scene.stop()
-        this.scene.start("jogar")
+        this.scene.stop();
+        this.scene.start("jogar");
       }
-    })
+    });
   }
 
-  update () { }
+  update() {}
 }
