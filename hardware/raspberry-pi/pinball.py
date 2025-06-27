@@ -14,9 +14,6 @@ mqtt_timeout = int(getenv("MQTT_TIMEOUT", default="60"))
 mqtt_topic = getenv("MQTT_TOPIC", default="adc20251/pinball-et-circensis/")
 mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)  # type: ignore
 modo = "espera"
-malabarista_task = None
-lateral_task = None
-saidas_task = None
 senha = None
 
 leds = {
@@ -52,10 +49,7 @@ sensores = {
 
 
 def definirSenha():
-    global mqtt_client, senha
-    # senha aleatória de 4 dígitos
-    senha = f"{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}"
-    print(f"Senha definida: {senha}")
+    return f"{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}"
 
 
 def on_connect(client, userdata, flags, reason_code, properties):
@@ -68,11 +62,10 @@ def on_message(client, userdata, msg):
     if msg.topic == mqtt_topic + "modo":
         global modo
         modo = msg.payload.decode()
-        if modo not in ["espera", "jogando"]:
-            print(f"Modo inválido recebido: {modo}")
-        elif modo == "espera":
+
+        if modo == "espera":
             print("Modo espera ativado")
-            definirSenha()
+            senha = definirSenha()
         elif modo == "jogando":
             print("Modo jogando ativado")
 
@@ -141,6 +134,8 @@ def on_sensor_triggered(channel):
 
 
 def setup():
+    global senha, mqtt_client
+
     # GPIO.setmode(GPIO.BOARD)
     # GPIO.setwarnings(False)
 
@@ -158,11 +153,15 @@ def setup():
     mqtt_client.on_message = on_message
     mqtt_client.connect(mqtt_host, mqtt_port, mqtt_timeout)
 
-    definirSenha()
+    senha = definirSenha()
 
 
 async def main():
-    global malabarista_task, lateral_task, saidas_task, senha
+    global senha
+    malabarista_task = None
+    lateral_task = None
+    saidas_task = None
+    
     try:
         while True:
             if modo == "espera":
@@ -173,7 +172,6 @@ async def main():
                     lateral_task = asyncio.create_task(lateral())
                 if not saidas_task:
                     saidas_task = asyncio.create_task(saidas())
-                await asyncio.sleep(1)
             elif modo == "jogando":
                 if malabarista_task:
                     malabarista_task.cancel()
@@ -185,11 +183,11 @@ async def main():
                     saidas_task.cancel()
                     saidas_task = None
                 print("Modo jogando")
-                await asyncio.sleep(1)
 
             mqtt_client.publish(mqtt_topic + "estado", modo, qos=1)
             mqtt_client.publish(mqtt_topic + "senha", senha, qos=1)
             mqtt_client.loop()
+            await asyncio.sleep(1)
     except KeyboardInterrupt:
         # GPIO.cleanup()
         mqtt_client.disconnect()
