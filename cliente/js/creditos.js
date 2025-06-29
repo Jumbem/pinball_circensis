@@ -15,13 +15,21 @@ export default class creditos extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32
     })
-    this.load.spritesheet('bianca', 'assets/sona-bianca-300.png', {
+    this.load.spritesheet('sona-bianca', 'assets/sona-bianca-300.png', {
       frameWidth: 300,
       frameHeight: 300
     })
-    this.load.spritesheet('junior', 'assets/sona-junior-300.png', {
+    this.load.spritesheet('sona-junior', 'assets/sona-junior-300.png', {
       frameWidth: 300,
       frameHeight: 300
+    })
+    this.load.spritesheet('bianca', 'assets/bianca.png', {
+      frameWidth: 325,
+      frameHeight: 99
+    })
+    this.load.spritesheet('junior', 'assets/junior.png', {
+      frameWidth: 325,
+      frameHeight: 99
     })
   }
 
@@ -44,43 +52,56 @@ export default class creditos extends Phaser.Scene {
         })
       })
     
-    this.add.sprite(100, 200, 'bianca').setScale(0.5).play('bianca');
-    this.add.text(225, 200, 'BIANCA', {
-      fontFamily: 'Arial',
-      fontSize: '50px',
-      fontStyle: 'bold',
-      color: '#ffffff'
-    }).setOrigin(0.5, 0);
-    this.add.text(170, 150, 'Desenvolvedora', {
-      fontFamily: 'Arial',
-      fontSize: '20px',
-      color: '#ffffff'
-    });
-
-    this.add.sprite(300, 600, 'junior').setScale(0.5).play('junior');
-    this.add.text(225, 600, 'JUNIOR', {
-      fontFamily: 'Arial',
-      fontSize: '50px',
-      fontStyle: 'bold',
-      color: '#ffffff'
-    }).setOrigin(0.5, 0);
-    this.add.text(250, 550, 'Programador (web app), artista geral', {
-      fontFamily: 'Arial',
-      fontSize: '20px',
-      color: '#ffffff'
-    });
-
-    this.add.text(100, 650, 'Professores/Orientadores:', {
+    this.add.sprite(225, 200, 'bianca');
+    this.add.sprite(75, 200, 'sona-bianca').setScale(0.5);
+    //this.add.text(225, 200, 'BIANCA', {
+    //  fontFamily: 'Arial',
+    //  fontSize: '50px',
+    //  fontStyle: 'bold',
+    //  color: '#ffffff',
+    //  align: 'center'
+    //}).setOrigin(0.5, 0.5);
+    this.add.text(225, 150, 'Construção do\njogo físico e\nparte eletrônica', {
       fontFamily: 'Arial',
       fontSize: '24px',
-      fontStyle: 'bold',
-      color: '#ffffff'
-    }).setOrigin(0.5, 0);
-    this.add.text(75, 675, 'Clayrton M. Henrique\nEderson Torresini, "Boi"', {
+      color: '#ffffff',
+      align: 'center'
+    }).setOrigin(0.5, 0.5);
+
+    this.add.sprite(225, 500, 'junior');
+    this.add.sprite(325, 600, 'sona-junior').setScale(0.5);
+    //this.add.text(225, 600, 'JUNIOR', {
+    //  fontFamily: 'Arial',
+    //  fontSize: '50px',
+    //  fontStyle: 'bold',
+    //  color: '#ffffff',
+    //  align: 'center'
+    //}).setOrigin(0.5, 0.5);
+    this.add.text(225, 550, 'Idealização, programação\nweb, arte e game design', {
       fontFamily: 'Arial',
-      fontSize: '20px',
-      color: '#ffffff'
-    }).setOrigin(0.5, 0);
+      fontSize: '24px',
+      color: '#ffffff',
+      align: 'center'
+    }).setOrigin(0.5, 0.5);
+
+    this.add.text(225, 650, 'Professores/Orientadores:', {
+      fontFamily: 'Arial',
+      fontSize: '30px',
+      fontStyle: 'bold',
+      color: '#ffffff',
+      stroke: '#000000',
+      strokeThickness: 2,
+      align: 'center'
+    }).setOrigin(0.5, 0.5);
+    this.add.text(225, 700, 'Clayrton M. Henrique\nEderson Torresini, "Boi"', {
+      fontFamily: 'Arial',
+      fontSize: '28px',
+      fontStyle: 'bold italic',
+      color: '#ffffff',
+      stroke: '#000000',
+      strokeThickness: 2,
+      align: 'center'
+    }).setOrigin(0.5, 0.5);
   }
 
   update() {}

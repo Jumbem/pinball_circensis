@@ -197,7 +197,7 @@ export default class newhighscore extends Phaser.Scene {
         const nome = this.indices.map((i) => this.letras[i]).join("");
         if (nomesProibidos.includes(nome)) {
           alert(
-            "Você está querendo bancar o espertinho, mas nós somos mais.\nNão aceitamos exibir nomes inapropriados em nosso ranking.\nEscolha outro apelido e tente novamente."
+            "Não aceitamos exibir nomes inapropriados em nosso ranking.\nEscolha outro apelido e tente novamente."
           );
           return;
         }
