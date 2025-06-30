@@ -126,5 +126,31 @@ export default class jogar extends Phaser.Scene {
         .on("pointerup", () => clearInterval(downInterval))
         .on("pointerout", () => clearInterval(downInterval));
     }
+
+    this.confirmar = this.add.sprite(225, 700, "confirmar")
+      .setOrigin(0.5, 0.5)
+      .setInteractive()
+      .on("pointerdown", () => {
+        this.sound.play("botao", { loop: false });
+        const senhaDigitada = this.indices.map(i => this.numeros[i]).join("");
+        if (senhaDigitada === window.game.mqttSenha) {
+          window.game.mqttClient.publish(
+            window.game.mqttTopic + "modo", "jogando", { qos: 1 }
+          )
+          this.cameras.main.fadeOut(187);
+          this.cameras.main.once("camerafadeoutcomplete", () => {
+            this.scene.stop("jogar");
+            this.scene.start("placar");
+          });
+        } else {
+          alert("Senha incorreta! Tente novamente.");
+        }
+      });
+    
+    window.game.mqttClient.on("message", (topic, message) => {
+      if (topic === window.game.mqttTopic + "senha") {
+        window.game.mqttSenha = message.toString();
+      }
+    })
   }
 }

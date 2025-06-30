@@ -10,7 +10,7 @@ export default class creditos extends Phaser.Scene {
   preload() {
     this.load.audio("cantarolando", "assets/ost/cantarolando.mp3");
     this.load.audio("botao", "assets/sfx/botao.mp3");
-    this.load.image("creditos", "assets/backgrounds/creditos.png");
+    this.load.image("creditos", "assets/backgrounds/abertura2.png");
     this.load.spritesheet("voltar", "assets/buttons/voltar.png", {
       frameWidth: 32,
       frameHeight: 32
@@ -52,36 +52,26 @@ export default class creditos extends Phaser.Scene {
         })
       })
     
-    this.add.sprite(225, 200, 'bianca');
+    this.add.sprite(250, 200, 'bianca');
     this.add.sprite(75, 200, 'sona-bianca').setScale(0.5);
-    //this.add.text(225, 200, 'BIANCA', {
-    //  fontFamily: 'Arial',
-    //  fontSize: '50px',
-    //  fontStyle: 'bold',
-    //  color: '#ffffff',
-    //  align: 'center'
-    //}).setOrigin(0.5, 0.5);
-    this.add.text(225, 150, 'Construção do\njogo físico e\nparte eletrônica', {
+    this.add.text(225, 280, 'Construção do jogo físico\ne parte eletrônica', {
       fontFamily: 'Arial',
-      fontSize: '24px',
+      fontSize: '25px',
       color: '#ffffff',
-      align: 'center'
+      align: 'center',
+      stroke: '#000000',
+      strokeThickness: 2
     }).setOrigin(0.5, 0.5);
 
-    this.add.sprite(225, 500, 'junior');
-    this.add.sprite(325, 600, 'sona-junior').setScale(0.5);
-    //this.add.text(225, 600, 'JUNIOR', {
-    //  fontFamily: 'Arial',
-    //  fontSize: '50px',
-    //  fontStyle: 'bold',
-    //  color: '#ffffff',
-    //  align: 'center'
-    //}).setOrigin(0.5, 0.5);
-    this.add.text(225, 550, 'Idealização, programação\nweb, arte e game design', {
+    this.add.sprite(200, 450, 'junior');
+//    this.add.sprite(325, 475, 'sona-junior').setScale(0.5); // trocar por sprite novo
+    this.add.text(225, 530, 'Idealização, programação web,\narte e game design', {
       fontFamily: 'Arial',
-      fontSize: '24px',
+      fontSize: '25px',
       color: '#ffffff',
-      align: 'center'
+      align: 'center',
+      stroke: '#000000',
+      strokeThickness: 2
     }).setOrigin(0.5, 0.5);
 
     this.add.text(225, 650, 'Professores/Orientadores:', {
@@ -90,9 +80,10 @@ export default class creditos extends Phaser.Scene {
       fontStyle: 'bold',
       color: '#ffffff',
       stroke: '#000000',
-      strokeThickness: 2,
+      strokeThickness: 3,
       align: 'center'
     }).setOrigin(0.5, 0.5);
+    
     this.add.text(225, 700, 'Clayrton M. Henrique\nEderson Torresini, "Boi"', {
       fontFamily: 'Arial',
       fontSize: '28px',

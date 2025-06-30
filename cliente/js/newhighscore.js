@@ -187,7 +187,7 @@ export default class newhighscore extends Phaser.Scene {
       ranking.push({ nome: nome, pontos: pontos }); // nome: escolhido pelo jogador, pontos: recebido da cena anterior
       ranking.sort((a, b) => b.pontos - a.pontos);
       ranking = ranking.slice(0, 3); // mantém só os 3 melhores
-      localStorage.setItem("ranking", JSON.stringify(ranking));
+      localStorage.setItem("ranklogo(192x192)-1.pnging", JSON.stringify(ranking));
     }
 
     this.confirmar = this.add

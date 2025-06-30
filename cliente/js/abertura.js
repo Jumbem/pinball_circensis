@@ -12,7 +12,7 @@ export default class abertura extends Phaser.Scene {
   preload() {
     this.load.audio("charliechaplin", "assets/ost/charlie-chaplin-walk.mp3");
     this.load.audio("botao", "assets/sfx/botao.mp3");
-    this.load.image("abertura", "assets/backgrounds/abertura.png");
+    this.load.image("abertura", "assets/backgrounds/abertura2.png");
     this.load.spritesheet("logo", "assets/logo.png", {
       frameWidth: 315,
       frameHeight: 215,
@@ -75,11 +75,23 @@ export default class abertura extends Phaser.Scene {
     this.logo = this.add.sprite(225, 150, "logo").setOrigin(0.5, 0.5);
     this.logo.anims.play("logo-lights", true);
 
+    window.game.mqttClient.on("message", (topic, message) => {
+      if (topic === window.game.mqttTopic + "modo") {
+        window.game.mqttModo = message.toString();
+      }
+    });
+
+    window.game.mqttModo = "espera";
+
     this.jogarbutton = this.add
       .sprite(225, 350, "jogarbutton")
       .setInteractive()
       .on("pointerdown", () => {
         this.sound.play("botao", { loop: false });
+        if (window.game.mqttModo === "jogando") {
+          alert("Outro usuário já está jogando. Aguarde a sua vez!");
+          return;
+        }
         this.jogarbutton.anims.play("jogarbutton-pressing", true);
         this.jogarbutton.once("animationcomplete", () => {
           this.cameras.main.fadeOut(250);
@@ -122,7 +134,6 @@ export default class abertura extends Phaser.Scene {
         this.sound.play("botao", { loop: false });
         this.creditosbutton.anims.play("creditosbutton-pressing", true);
         this.creditosbutton.once("animationcomplete", () => {
-          // Fade out the camera and switch to the 'creditos' scene
           this.cameras.main.fadeOut(250);
           this.cameras.main.once("camerafadeoutcomplete", () => {
             this.charliechaplin.stop();
