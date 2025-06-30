@@ -9,7 +9,7 @@ export default class jogar extends Phaser.Scene {
 
   preload() {
     this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
-    this.load.image("senha", "assets/png/backgrounds/abertura.png");
+    this.load.image("senha", "assets/png/backgrounds/abertura2.png");
     this.load.spritesheet("voltar", "assets/png/buttons/voltar.png", {
       frameWidth: 32,
       frameHeight: 32,

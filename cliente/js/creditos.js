@@ -56,7 +56,7 @@ export default class creditos extends Phaser.Scene {
     this.add.sprite(75, 200, 'sona-bianca').setScale(0.5);
     this.add.text(225, 280, 'Construção do jogo físico\ne parte eletrônica', {
       fontFamily: 'Arial',
-      fontSize: '25px',
+      fontSize: '23px',
       color: '#ffffff',
       align: 'center',
       stroke: '#000000',
@@ -64,10 +64,10 @@ export default class creditos extends Phaser.Scene {
     }).setOrigin(0.5, 0.5);
 
     this.add.sprite(200, 450, 'junior');
-    this.add.sprite(325, 475, 'sona-junior').setScale(0.5); // trocar por sprite novo
-    this.add.text(225, 530, 'Idealização, programação web,\narte e game design', {
+    this.add.sprite(362, 450, 'sona-junior').setScale(0.5); // trocar por sprite novo
+    this.add.text(225, 530, 'Idealização, programação\nweb, arte e game design', {
       fontFamily: 'Arial',
-      fontSize: '25px',
+      fontSize: '23px',
       color: '#ffffff',
       align: 'center',
       stroke: '#000000',
@@ -87,7 +87,7 @@ export default class creditos extends Phaser.Scene {
     this.add.text(225, 700, 'Clayrton M. Henrique\nEderson Torresini, "Boi"', {
       fontFamily: 'Arial',
       fontSize: '28px',
-      fontStyle: 'bold italic',
+      fontStyle: 'italic',
       color: '#ffffff',
       stroke: '#000000',
       strokeThickness: 2,
