@@ -10,26 +10,26 @@ export default class abertura extends Phaser.Scene {
   }
 
   preload() {
-    this.load.audio("charliechaplin", "assets/ost/charlie-chaplin-walk.mp3");
-    this.load.audio("botao", "assets/sfx/botao.mp3");
-    this.load.image("abertura", "assets/backgrounds/abertura2.png");
-    this.load.spritesheet("logo", "assets/logo.png", {
+    this.load.audio("charliechaplin", "assets/mp3/ost/charlie-chaplin-walk.mp3");
+    this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
+    this.load.image("abertura", "assets/png/backgrounds/abertura2.png");
+    this.load.spritesheet("logo", "assets/png/other/logo.png", {
       frameWidth: 315,
       frameHeight: 215,
     });
-    this.load.spritesheet("jogarbutton", "assets/buttons/jogar.png", {
+    this.load.spritesheet("jogarbutton", "assets/png/buttons/jogar.png", {
       frameWidth: 300,
       frameHeight: 75,
     });
-    this.load.spritesheet("rankingbutton", "assets/buttons/ranking.png", {
+    this.load.spritesheet("rankingbutton", "assets/png/buttons/ranking.png", {
       frameWidth: 300,
       frameHeight: 75,
     });
-    this.load.spritesheet("creditosbutton", "assets/buttons/creditos.png", {
+    this.load.spritesheet("creditosbutton", "assets/png/buttons/creditos.png", {
       frameWidth: 300,
       frameHeight: 75,
     });
-    this.load.spritesheet("highscorebutton", "assets/buttons/highscore.png", {
+    this.load.spritesheet("highscorebutton", "assets/png/buttons/highscore.png", {
       frameWidth: 300,
       frameHeight: 75,
     });

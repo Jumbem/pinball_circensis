@@ -8,21 +8,21 @@ export default class jogar extends Phaser.Scene {
   }
 
   preload() {
-    this.load.audio("botao", "assets/sfx/botao.mp3");
-    this.load.image("senha", "assets/backgrounds/abertura-old.png");
-    this.load.spritesheet("voltar", "assets/buttons/voltar.png", {
+    this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
+    this.load.image("senha", "assets/png/backgrounds/abertura.png");
+    this.load.spritesheet("voltar", "assets/png/buttons/voltar.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
-    this.load.spritesheet("upbutton", "assets/buttons/up.png", {
+    this.load.spritesheet("upbutton", "assets/png/buttons/up.png", {
       frameWidth: 92,
       frameHeight: 104,
     });
-    this.load.spritesheet("downbutton", "assets/buttons/down.png", {
+    this.load.spritesheet("downbutton", "assets/png/buttons/down.png", {
       frameWidth: 92,
       frameHeight: 104,
     });
-    this.load.spritesheet("confirmar", "assets/buttons/confirmar.png", {
+    this.load.spritesheet("confirmar", "assets/png/buttons/confirmar.png", {
       frameWidth: 200,
       frameHeight: 50,
     });

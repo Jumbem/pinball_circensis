@@ -8,26 +8,26 @@ export default class creditos extends Phaser.Scene {
   }
 
   preload() {
-    this.load.audio("cantarolando", "assets/ost/cantarolando.mp3");
-    this.load.audio("botao", "assets/sfx/botao.mp3");
-    this.load.image("creditos", "assets/backgrounds/abertura2.png");
-    this.load.spritesheet("voltar", "assets/buttons/voltar.png", {
+    this.load.audio("cantarolando", "assets/mp3/ost/cantarolando.mp3");
+    this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
+    this.load.image("creditos", "assets/png/backgrounds/abertura2.png");
+    this.load.spritesheet("voltar", "assets/png/buttons/voltar.png", {
       frameWidth: 32,
       frameHeight: 32
     })
-    this.load.spritesheet('sona-bianca', 'assets/sona-bianca-300.png', {
+    this.load.spritesheet('sona-bianca', 'assets/png/other/sona-bianca-300.png', {
       frameWidth: 300,
       frameHeight: 300
     })
-    this.load.spritesheet('sona-junior', 'assets/sona-junior-300.png', {
+    this.load.spritesheet('sona-junior', 'assets/png/other/sona-junior-300.png', {
       frameWidth: 300,
       frameHeight: 300
     })
-    this.load.spritesheet('bianca', 'assets/bianca.png', {
+    this.load.spritesheet('bianca', 'assets/png/other/bianca.png', {
       frameWidth: 325,
       frameHeight: 99
     })
-    this.load.spritesheet('junior', 'assets/junior.png', {
+    this.load.spritesheet('junior', 'assets/png/other/junior.png', {
       frameWidth: 325,
       frameHeight: 99
     })
@@ -64,7 +64,7 @@ export default class creditos extends Phaser.Scene {
     }).setOrigin(0.5, 0.5);
 
     this.add.sprite(200, 450, 'junior');
-//    this.add.sprite(325, 475, 'sona-junior').setScale(0.5); // trocar por sprite novo
+    this.add.sprite(325, 475, 'sona-junior').setScale(0.5); // trocar por sprite novo
     this.add.text(225, 530, 'Idealização, programação web,\narte e game design', {
       fontFamily: 'Arial',
       fontSize: '25px',

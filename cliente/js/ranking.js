@@ -10,10 +10,10 @@ export default class ranking extends Phaser.Scene {
   }
 
   preload() {
-    this.load.audio("botao", "assets/sfx/botao.mp3");
-    this.load.audio("tiroEqueda", "assets/ost/tiro-e-queda.mp3");
-    this.load.image("ranking", "assets/backgrounds/ranking.png");
-    this.load.spritesheet("voltar", "assets/buttons/voltar.png", {
+    this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
+    this.load.audio("tiroEqueda", "assets/mp3/ost/tiro-e-queda.mp3");
+    this.load.image("ranking", "assets/png/backgrounds/ranking.png");
+    this.load.spritesheet("voltar", "assets/png/buttons/voltar.png", {
       frameWidth: 32,
       frameHeight: 32,
     });

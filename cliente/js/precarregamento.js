@@ -22,11 +22,11 @@ export default class precarregamento extends Phaser.Scene {
 
   preload() {
     this.load.setPath("assets/");
-    this.load.image("bg", "abertura-bg.png");
-    this.load.spritesheet("jensonbutton", "jensonbutton.png", {
-      frameWidth: 40,
-      frameHeight: 29,
-    });
+    //this.load.image("bg", "abertura-bg.png");
+    //this.load.spritesheet("jensonbutton", "jensonbutton.png", {
+    //  frameWidth: 40,
+    //  frameHeight: 29,
+    //});
   }
 
   create() {
