@@ -64,7 +64,7 @@ export default class jogar extends Phaser.Scene {
     }
 
     this.textoPontuacao = this.add
-      .text(125, 600, `Pontuação: ${this.pontuacao}`, {
+      .text(225, 400, `Pontuação: ${this.pontuacao}`, {
         fontSize: "32px",
         color: "#AAAAAA",
         fontFamily: "Arial",
@@ -97,13 +97,21 @@ export default class jogar extends Phaser.Scene {
           this.cameras.main.fadeOut(187);
           this.cameras.main.once("camerafadeoutcomplete", () => {
             this.scene.stop("jogar");
-            this.scene.start("newhighscore", { pontuacao: this.pontuacao });
+            window.game.mqttClient.publish(
+              window.game.mqttTopic + "modo", "espera", { qos: 1 }, () => {
+                this.scene.start("newhighscore", { pontuacao: this.pontuacao });
+              }
+            )
           });
         } else {
           this.cameras.main.fadeOut(187);
           this.cameras.main.once("camerafadeoutcomplete", () => {
             this.scene.stop("jogar");
-            this.scene.start("abertura");
+            window.game.mqttClient.publish(
+              window.game.mqttTopic + "modo", "espera", { qos: 1 }, () => {
+                this.scene.start("newhighscore", { pontuacao: this.pontuacao });
+              }
+            )
           });
         }
       });

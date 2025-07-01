@@ -51,7 +51,7 @@ class Game extends Phaser.Game {
       console.log(`Inscrito no tópico ${this.mqttTopic}#`);
     });
 
-    this.cenaAtual = "gameover";
+    this.cenaAtual = "abertura";
     this.scene.start(this.cenaAtual);
 
     this.placar = "0";

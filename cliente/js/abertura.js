@@ -40,6 +40,14 @@ export default class abertura extends Phaser.Scene {
     this.charliechaplin.play();
     this.add.image(225, 400, "abertura");
 
+    window.game.mqttModo = "espera";
+
+    window.game.mqttClient.on("message", (topic, message) => {
+      if (topic === window.game.mqttTopic + "modo") {
+        window.game.mqttModo = message.toString();
+      }
+    });
+
     this.anims.create({
       key: "logo-lights",
       frames: this.anims.generateFrameNumbers("logo", { start: 0, end: 15 }),
@@ -81,13 +89,12 @@ export default class abertura extends Phaser.Scene {
       }
     });
 
-    window.game.mqttModo = "espera";
-
     this.jogarbutton = this.add
       .sprite(225, 350, "jogarbutton")
       .setInteractive()
       .on("pointerdown", () => {
         this.sound.play("botao", { loop: false });
+        console.log("Modo atual:", window.game.mqttModo); // debug
         if (window.game.mqttModo === "jogando") {
           alert("Outro usuário já está jogando. Aguarde a sua vez!");
           return;
