@@ -3,7 +3,7 @@
 import config from "./config.js";
 import abertura from "./abertura.js";
 import precarregamento from "./precarregamento.js";
-import sala from "./sala.js";
+import gameover from "./gameover.js";
 import creditos from "./creditos.js";
 import ranking from "./ranking.js";
 import jogar from "./jogar.js";
@@ -33,7 +33,7 @@ class Game extends Phaser.Game {
 
     this.scene.add("abertura", abertura);
     this.scene.add("precarregamento", precarregamento);
-    this.scene.add("sala", sala);
+    this.scene.add("gameover", gameover);
     this.scene.add("creditos", creditos);
     this.scene.add("ranking", ranking);
     this.scene.add("jogar", jogar);
@@ -51,7 +51,7 @@ class Game extends Phaser.Game {
       console.log(`Inscrito no tópico ${this.mqttTopic}#`);
     });
 
-    this.cenaAtual = "abertura";
+    this.cenaAtual = "gameover";
     this.scene.start(this.cenaAtual);
 
     this.placar = "0";
