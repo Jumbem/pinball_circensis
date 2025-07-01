@@ -11,16 +11,16 @@ export default class jogar extends Phaser.Scene {
 
   preload() {
     this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
-    this.load.audio("honk", "assets/honk.mp3");
-    this.load.image("jogar", "assets/png/backgrounds/placar.png");
+    //this.load.audio("honk", "assets/honk.mp3");
+    this.load.image("placar", "assets/png/backgrounds/placeholder.png");
     this.load.spritesheet("voltar", "assets/png/buttons/voltar.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
-    this.load.spritesheet("jensonbutton", "assets/png/buttons/jensonbutton.png", {
-      frameWidth: 300,
-      frameHeight: 75,
-    });
+    //this.load.spritesheet("jensonbutton", "assets/png/buttons/jensonbutton.png", {
+    //  frameWidth: 300,
+    //  frameHeight: 75,
+    //});
     this.load.spritesheet("fim", "assets/png/buttons/fim.png", {
       frameWidth: 200,
       frameHeight: 50,
@@ -72,29 +72,27 @@ export default class jogar extends Phaser.Scene {
       })
       .setOrigin(0, 0.5);
 
-    this.jensonbutton = this.add
-      .sprite(225, 450, "jensonbutton")
-      .setInteractive()
-      .on("pointerdown", () => {
-        // a interatividade só acontece ao clicar/tocar no botão
-        this.honk = this.sound.add("honk", { loop: false }).play();
-        this.pontuacao += 1;
-        this.textoPontuacao.setText(`Pontuação: ${this.pontuacao}`);
-        if ("vibrate" in navigator) {
-          navigator.vibrate(100);
-        }
+    //this.jensonbutton = this.add
+    //  .sprite(225, 450, "jensonbutton")
+    //  .setInteractive()
+    //  .on("pointerdown", () => {
+    //    this.honk = this.sound.add("honk", { loop: false }).play();
+    //    this.pontuacao += 1;
+    //    this.textoPontuacao.setText(`Pontuação: ${this.pontuacao}`);
+    //    if ("vibrate" in navigator) {
+    //      navigator.vibrate(100);
+    //    }
         if (novoRecorde(this.pontuacao)) {
           this.textoPontuacao.setText(
             `Pontuação: ${this.pontuacao}\n(Novo Recorde!)`
-          );
-        }
-      });
+    //      );
+          )
+      };
 
     this.fim = this.add
       .sprite(225, 700, "fim")
       .setInteractive()
       .on("pointerdown", () => {
-        // a interatividade só acontece ao clicar/tocar no botão
         if (podio(this.pontuacao)) {
           this.cameras.main.fadeOut(187);
           this.cameras.main.once("camerafadeoutcomplete", () => {
@@ -104,7 +102,6 @@ export default class jogar extends Phaser.Scene {
         } else {
           this.cameras.main.fadeOut(187);
           this.cameras.main.once("camerafadeoutcomplete", () => {
-            // a interatividade só acontece ao clicar/tocar no botão
             this.scene.stop("jogar");
             this.scene.start("abertura");
           });

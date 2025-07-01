@@ -5,13 +5,13 @@ export default class newhighscore extends Phaser.Scene {
 
   init(data) {
     this.game.cenaAtual = "newhighscore";
-    this.pontuacao = data.pontuacao || 0; // Recebe a pontuação da cena anterior
+//    this.pontuacao = data.pontuacao || 0; // Recebe a pontuação da cena anterior
   }
 
   preload() {
     this.load.audio("soNasPretas", "assets/mp3/ost/so-nas-pretas.mp3");
     this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
-    this.load.image("newhighscore", "assets/png/backgrounds/newhighscore.png");
+    this.load.image("newhighscore", "assets/png/backgrounds/placeholder.png");
     this.load.spritesheet("voltar", "assets/png/buttons/voltar.png", {
       frameWidth: 32,
       frameHeight: 32,
@@ -35,6 +35,24 @@ export default class newhighscore extends Phaser.Scene {
     this.soNasPretas.play();
 
     this.add.image(225, 400, "newhighscore");
+
+    this.add.text(225, 150, "PARABÉNS,\nvocê está no TOP 3!", {
+      fontFamily: "Arial",
+      fontSize: "35px",
+      fontStyle: "bold",
+      color: "#ffffff",
+      align: "center",
+      stroke: "#000000",
+      strokeThickness: 2,
+    }).setOrigin(0.5, 0.5);
+    this.add.text(225, 250, "Insira um apelido para\nse registrar no ranking.", {
+      fontFamily: "Arial",
+      fontSize: "25px",
+      color: "#ffffff",
+      align: "center",
+      stroke: "#000000",
+      strokeThickness: 2,
+    }).setOrigin(0.5, 0.5);
 
     this.anims.create({
       key: "confirmar-pressing",

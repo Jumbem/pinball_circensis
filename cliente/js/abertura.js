@@ -91,16 +91,17 @@ export default class abertura extends Phaser.Scene {
         if (window.game.mqttModo === "jogando") {
           alert("Outro usuário já está jogando. Aguarde a sua vez!");
           return;
-        }
-        this.jogarbutton.anims.play("jogarbutton-pressing", true);
-        this.jogarbutton.once("animationcomplete", () => {
-          this.cameras.main.fadeOut(250);
-          this.cameras.main.once("camerafadeoutcomplete", () => {
-            this.charliechaplin.stop();
-            this.scene.stop();
-            this.scene.start("precarregamento");
+        } else {
+          this.jogarbutton.anims.play("jogarbutton-pressing", true);
+          this.jogarbutton.once("animationcomplete", () => {
+            this.cameras.main.fadeOut(250);
+            this.cameras.main.once("camerafadeoutcomplete", () => {
+              this.charliechaplin.stop();
+              this.scene.stop();
+              this.scene.start("precarregamento");
+            });
           });
-        });
+        }
       });
 
     this.rankingbutton = this.add
