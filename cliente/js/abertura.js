@@ -48,6 +48,8 @@ export default class abertura extends Phaser.Scene {
       }
     });
 
+    console.log("Modo atual:", window.game.mqttModo); // debug
+
     this.anims.create({
       key: "logo-lights",
       frames: this.anims.generateFrameNumbers("logo", { start: 0, end: 15 }),
@@ -94,7 +96,6 @@ export default class abertura extends Phaser.Scene {
       .setInteractive()
       .on("pointerdown", () => {
         this.sound.play("botao", { loop: false });
-        console.log("Modo atual:", window.game.mqttModo); // debug
         if (window.game.mqttModo === "jogando") {
           alert("Outro usuário já está jogando. Aguarde a sua vez!");
           return;

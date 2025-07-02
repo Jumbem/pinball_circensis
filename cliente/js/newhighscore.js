@@ -11,7 +11,7 @@ export default class newhighscore extends Phaser.Scene {
   preload() {
     this.load.audio("soNasPretas", "assets/mp3/ost/so-nas-pretas.mp3");
     this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
-    this.load.image("newhighscore", "assets/png/backgrounds/placeholder.png");
+    this.load.image("newhighscore", "assets/png/backgrounds/newhighscore.png");
     this.load.spritesheet("voltar", "assets/png/buttons/voltar.png", {
       frameWidth: 32,
       frameHeight: 32,
@@ -35,19 +35,10 @@ export default class newhighscore extends Phaser.Scene {
     this.soNasPretas.play();
 
     this.add.image(225, 400, "newhighscore");
-
-    this.add.text(225, 150, "PARABÉNS,\nvocê está no TOP 3!", {
+    
+    this.add.text(225, 275, "Insira um apelido para se registrar\nno ranking.", {
       fontFamily: "Arial",
-      fontSize: "35px",
-      fontStyle: "bold",
-      color: "#ffffff",
-      align: "center",
-      stroke: "#000000",
-      strokeThickness: 2,
-    }).setOrigin(0.5, 0.5);
-    this.add.text(225, 250, "Insira um apelido para\nse registrar no ranking.", {
-      fontFamily: "Arial",
-      fontSize: "25px",
+      fontSize: "22px",
       color: "#ffffff",
       align: "center",
       stroke: "#000000",
