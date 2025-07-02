@@ -4,7 +4,6 @@ from os import getenv
 from random import randint
 import RPi.GPIO as GPIO
 import paho.mqtt.client as mqtt
-import sys
 
 load_dotenv()
 mqtt_host = getenv("MQTT_HOST", default="feira-de-jogos.dev.br")
