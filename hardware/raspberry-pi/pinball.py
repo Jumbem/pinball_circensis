@@ -1,232 +1,91 @@
 import asyncio
 from dotenv import load_dotenv
 from os import getenv
-from random import randint
-import RPi.GPIO as GPIO
 import paho.mqtt.client as mqtt
+from datetime import datetime
+from smbus3 import SMBus
+from random import randint
+from time import sleep
 
 load_dotenv()
-mqtt_host = getenv("MQTT_HOST", default="feira-de-jogos.dev.br")
-mqtt_port = int(getenv("MQTT_PORT", default="1883"))
-mqtt_timeout = int(getenv("MQTT_TIMEOUT", default="60"))
-mqtt_topic = getenv("MQTT_TOPIC", default="adc20251/pinball-et-circensis/")
-mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)  # type: ignore
-modo = "espera"
-senha = None
-
-leds = {
-    #"Malabaris1": 23,
-    #"Malabaris2": 27,
-    #"Malabaris3": 22,
-    #"Lateral2": 9,
-    #"Lateral3": 11,
-    #"Lateral1": 10,
-    #"Saidas1": 6,
-    #"Saidas2": 13,
-    #"Saidas3": 19,
-    #"Saidas4": 26,
-    #"Rampa": 14,
-    #"Palhaco": 15,
-}
-
-sensores = {
-    "Malabaris1": 17,
-    #"Malabaris2": 24,
-    #"Malabaris3": 25,
-    #"Saidas1": 12,
-    #"Saidas2": 16,
-    #"Saidas3": 20,
-    #"Saidas4": 21,
-    #"Final": 18,
-    #"Lateral1": 25,
-    #"Lateral2": 8,
-    #"Lateral3": 7,
-    #"BuracoNegro": 24,
-    #"Funil": 23,
-}
 
 
-def definirSenha():
-    return f"{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}"
+class Pinball:
+    def __init__(self):
+        self.mode = None
+        self.password = None
 
+        self.bus = SMBus(int(getenv("I2C_BUS", default="1")))
 
-def on_connect(client, userdata, flags, reason_code, properties):
-    print("Conectado ao broker MQTT")
-    client.subscribe(mqtt_topic + "#", qos=1)
+        self.mqtt_host = getenv("MQTT_HOST", default="feira-de-jogos.dev.br")
+        self.mqtt_port = int(getenv("MQTT_PORT", default="1883"))
+        self.mqtt_timeout = int(getenv("MQTT_TIMEOUT", default="60"))
+        self.mqtt_topic = getenv("MQTT_TOPIC", default="adc20251/pinball-et-circensis/")
+        self.mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)  # type: ignore
 
+    def log(self, message):
+        print(datetime.now().strftime("[%H:%M:%S]"), message)
 
-def on_message(client, userdata, msg):
-    global senha
-    if msg.topic == mqtt_topic + "modo":
-        global modo
-        modo = msg.payload.decode()
+    def on_connect(self, client, userdata, flags, reason_code, properties):
+        self.log("Conectado ao broker MQTT")
+        client.subscribe(self.mqtt_topic + "#", qos=1)
 
-        if modo == "espera":
-            print("Modo espera ativado")
-            senha = definirSenha()
+    def createPassword(self):
+        return f"{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}"
 
-        elif modo == "jogando":
-            print("Modo jogando ativado")
+    def on_message(self, client, userdata, msg):
+        if msg.topic == self.mqtt_topic + "modo":
+            self.mode = msg.payload.decode()
 
+            if self.mode == "espera":
+                self.log("Modo espera ativado.")
+                self.password = self.createPassword()
+                self.log(f"Senha gerada: {self.password}")
 
-async def malabarista():
-    print("Malabarista iniciado")
-    while True:
-        print("Malabarista jogando as bolas...")
+            elif self.mode == "jogando":
+                self.log("Modo jogando ativado!")
 
-        GPIO.output(leds["Malabaris1"], GPIO.HIGH)
-        GPIO.output(leds["Malabaris2"], GPIO.LOW)
-        GPIO.output(leds["Malabaris3"], GPIO.LOW)
-        await asyncio.sleep(1)
+    def setup(self):
+        self.mode = "espera"
+        self.password = self.createPassword()
 
-        GPIO.output(leds["Malabaris1"], GPIO.LOW)
-        GPIO.output(leds["Malabaris2"], GPIO.HIGH)
-        GPIO.output(leds["Malabaris3"], GPIO.LOW)
-        await asyncio.sleep(1)
+        self.mqtt_client.on_connect = self.on_connect
+        self.mqtt_client.on_message = self.on_message
+        self.mqtt_client.connect(self.mqtt_host, self.mqtt_port, self.mqtt_timeout)
 
-        GPIO.output(leds["Malabaris1"], GPIO.LOW)
-        GPIO.output(leds["Malabaris2"], GPIO.LOW)
-        GPIO.output(leds["Malabaris3"], GPIO.HIGH)
-        await asyncio.sleep(1)
+    async def read_i2c_data(self):
+        # Implement I2C data reading logic here
+        pass
 
+    async def loop(self):
+        try:
+            while True:
+                if self.mode == "espera":
+                    self.log("Em espera, senha: " + self.password)
 
-async def lateral():
-    print("Lateral iniciado")
-    while True:
-        print("Laterais piscando...")
+                elif self.mode == "jogando":
+                    self.log("Jogando!")
 
-        GPIO.output(leds["Lateral1"], GPIO.LOW)
-        GPIO.output(leds["Lateral2"], GPIO.LOW)
-        GPIO.output(leds["Lateral3"], GPIO.HIGH)
-        await asyncio.sleep(1)
+                self.read_i2c_data()
 
-        GPIO.output(leds["Lateral1"], GPIO.LOW)
-        GPIO.output(leds["Lateral2"], GPIO.HIGH)
-        GPIO.output(leds["Lateral3"], GPIO.LOW)
-        await asyncio.sleep(1)
+                self.mqtt_client.publish(self.mqtt_topic + "estado", self.mode, qos=1)
+                self.mqtt_client.publish(
+                    self.mqtt_topic + "senha", self.password, qos=1
+                )
+                self.mqtt_client.loop()
 
-        GPIO.output(leds["Lateral1"], GPIO.HIGH)
-        GPIO.output(leds["Lateral2"], GPIO.LOW)
-        GPIO.output(leds["Lateral3"], GPIO.LOW)
-        await asyncio.sleep(1)
+                sleep(1)
 
-        GPIO.output(leds["Lateral1"], GPIO.HIGH)
-        GPIO.output(leds["Lateral2"], GPIO.HIGH)
-        GPIO.output(leds["Lateral3"], GPIO.HIGH)
-        await asyncio.sleep(1)
+        except KeyboardInterrupt:
+            self.log("Interrupção do usuário!")
 
-
-async def saidas():
-    print("Saídas iniciado")
-    while True:
-        print("Saídas piscando...")
-
-        GPIO.output(leds["Saidas1"], GPIO.HIGH)
-        GPIO.output(leds["Saidas2"], GPIO.LOW)
-        GPIO.output(leds["Saidas3"], GPIO.LOW)
-        GPIO.output(leds["Saidas4"], GPIO.HIGH)
-        await asyncio.sleep(1)
-
-        GPIO.output(leds["Saidas1"], GPIO.LOW)
-        GPIO.output(leds["Saidas2"], GPIO.HIGH)
-        GPIO.output(leds["Saidas3"], GPIO.HIGH)
-        GPIO.output(leds["Saidas4"], GPIO.LOW)
-        await asyncio.sleep(1)
-
-
-async def rampa():
-    print("Rampa iniciada")
-    while True:
-        GPIO.output(leds["Rampa"], GPIO.HIGH)
-        await asyncio.sleep(1)
-        GPIO.output(leds["Rampa"], GPIO.LOW)
-        await asyncio.sleep(1)
-        print("Rampa piscando...")
-
-
-def on_sensor_event(channel):
-    print(f"Sensor {channel} ativado")
-
-
-def setup():
-    global senha, mqtt_client
-
-    try:
-        GPIO.setmode(GPIO.BCM)
-        #GPIO.setwarnings(False)
-
-        for led in leds.values():
-            GPIO.setup(led, GPIO.OUT)
-            GPIO.output(led, GPIO.LOW)
-
-        for sensor in sensores.values():
-            GPIO.setup(sensor, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-            GPIO.add_event_detect(sensor, GPIO.RISING, callback=on_sensor_event)
-
-    except Exception as e:
-        print(f"Erro ao configurar GPIO: {e}")
-        
-    finally:
-        GPIO.cleanup()
-
-    mqtt_client.on_connect = on_connect
-    mqtt_client.on_message = on_message
-    mqtt_client.connect(mqtt_host, mqtt_port, mqtt_timeout)
-
-    senha = definirSenha()
-
-
-async def main():
-    global senha
-    malabarista_task = None
-    lateral_task = None
-    saidas_task = None
-    rampa_task = None
-
-    try:
-        while True:
-            if modo == "espera":
-                print("Modo espera")
-
-                if not malabarista_task:
-                    malabarista_task = asyncio.create_task(malabarista())
-                if not lateral_task:
-                    lateral_task = asyncio.create_task(lateral())
-                if not saidas_task:
-                    saidas_task = asyncio.create_task(saidas())
-                if not rampa_task:
-                    rampa_task = asyncio.create_task(rampa())
-
-            elif modo == "jogando":
-                print("Modo jogando")
-
-                if malabarista_task:
-                    malabarista_task.cancel()
-                    malabarista_task = None
-                if lateral_task:
-                    lateral_task.cancel()
-                    lateral_task = None
-                if saidas_task:
-                    saidas_task.cancel()
-                    saidas_task = None
-                if rampa_task:
-                    rampa_task.cancel()
-                    rampa_task = None
-
-            mqtt_client.publish(mqtt_topic + "estado", modo, qos=1)
-            mqtt_client.publish(mqtt_topic + "senha", senha, qos=1)
-            mqtt_client.loop()
-
-            await asyncio.sleep(1)
-
-    except KeyboardInterrupt:
-        mqtt_client.disconnect()
-
-    finally:
-        print("Cleaning up...")
-        GPIO.cleanup()
+        finally:
+            self.log("Fechando aplicação...")
+            self.bus.close()
+            self.mqtt_client.disconnect()
 
 
 if __name__ == "__main__":
-    setup()
-    asyncio.run(main())
+    pinball = Pinball()
+    pinball.setup()
+    asyncio.run(pinball.loop())
