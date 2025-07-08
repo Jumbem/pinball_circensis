@@ -54,7 +54,7 @@ class Game extends Phaser.Game {
     this.cenaAtual = "abertura";
     this.scene.start(this.cenaAtual);
 
-    this.placar = "0";
+    this.placar = 0;
     this.mqttClient.on("message", (topic, message) => {
       let msg = message.toString();
       console.log(topic, msg);
@@ -66,7 +66,7 @@ class Game extends Phaser.Game {
         this.scene.stop(this.cenaAtual);
         this.scene.start("ranking");
       } else if (topic === `${this.mqttTopic}placar`) {
-        this.placar = Number(this.placar) + Number(msg);
+        this.placar = Number(msg);
       } else if (topic === `${this.mqttTopic}creditos`) {
         this.scene.stop(this.cenaAtual);
         this.scene.start("creditos");

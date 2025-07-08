@@ -1,4 +1,9 @@
-lgpio==0.2.2.0
+anyio==3.0.1
+boombox==0.56
+idna==3.10
 paho-mqtt==2.1.0
-python-dotenv==1.1.0
-rpi-lgpio==0.6
+play_sounds==0.6.0
+playsound==1.3.0
+python-dotenv==1.0.1
+smbus3==0.5.5
+sniffio==1.3.1
