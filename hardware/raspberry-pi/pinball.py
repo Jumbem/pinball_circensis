@@ -40,24 +40,12 @@ class Pinball:
         """Initialize the Pinball class"""
 
         self.config = PinballConfig()
-        self.running = False
         self.mode = None
         self.password = None
-        self.placar = 0
-        self.sensors = {
-            b'\x01': 1,
-            b'\x02': 2,
-            b'\x03': 3,
-            b'\x04': 4,
-            b'\x05': 5,
-            b'\x06': 6,
-            b'\x07': 7,
-            b'\x08': 8,
-            b'\x09': 9,
-            b'\x0A': 10,
-        }
+        self.running = False
 
         self.bus = SMBus(self.config.I2C_BUS)
+        self.i2c_data = None
         self.i2c_lock = threading.Lock()
         self.i2c_error_count = 0
         self.i2c_read_count = 0
@@ -89,18 +77,11 @@ class Pinball:
 
             if self.mode == "espera":
                 self.log("Modo espera ativado.")
-
                 self.password = self.createPassword()
                 self.log(f"Senha gerada: {self.password}")
 
-                '''16 = espera'''
-                self.bus.write_byte(self.config.I2C_ADDRESS, 16)
-
             elif self.mode == "jogando":
                 self.log("Modo jogando ativado!")
-
-                '''32 = jogando'''
-                self.bus.write_byte(self.config.I2C_ADDRESS, 32)
 
     async def play_music(self):
         """Play background music"""
@@ -121,15 +102,11 @@ class Pinball:
             try:
                 loop = asyncio.get_event_loop()
                 data = await loop.run_in_executor(
-                    None, lambda: self.bus.read_byte(self.config.I2C_ADDRESS)
+                    None, lambda: self.bus.read_i2c_block_data(self.config.I2C_ADDRESS, 0, 10)
                 )
 
                 with self.i2c_lock:
-                    if data in self.sensors.keys():
-                        self.placar += self.sensors[data]
-                        self.log(f"Sensor I2C lido: {data}")
-                        self.log(f"Novo placar: {self.placar}")
-
+                    self.i2c_data = data
                     self.i2c_read_count += 1
 
                 if self.i2c_read_count % 50 == 0:
@@ -158,9 +135,6 @@ class Pinball:
                 )
                 self.mqtt_client.publish(
                     self.config.MQTT_TOPIC + "senha", self.password, qos=1
-                )
-                self.mqtt_client.publish(
-                    self.config.MQTT_TOPIC + "placar", self.placar, qos=1
                 )
 
                 self.mqtt_error_count = 0
@@ -198,15 +172,15 @@ class Pinball:
     def setup(self):
         """Setup the initial state of the Pinball object"""
 
+        self.mode = "espera"
+        self.password = self.createPassword()
+        self.running = True
+
         self.mqtt_client.on_connect = self.on_connect
         self.mqtt_client.on_message = self.on_message
         self.mqtt_client.connect(
             self.config.MQTT_HOST, self.config.MQTT_PORT, self.config.MQTT_TIMEOUT
         )
-
-        self.mode = "espera"
-        self.password = self.createPassword()
-        self.running = True
 
     async def run(self):
         """Run all async tasks concurrently"""
