@@ -89,7 +89,7 @@ class Pinball:
         while self.running:
             self.log("Tocando música de fundo...")
             await play_file_async(
-                Path("./hardware/raspberry-pi/assets/sounds/musica-fundo.mp3"),
+                Path("./assets/sounds/musica-fundo.mp3"),
                 block=True,
             )
 
