@@ -12,7 +12,7 @@ export default class jogar extends Phaser.Scene {
   preload() {
     this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
     //this.load.audio("honk", "assets/honk.mp3");
-    this.load.image("placar", "assets/png/backgrounds/placeholder.png");
+    this.load.image("placar", "assets/png/backgrounds/placar.png");
     this.load.spritesheet("voltar", "assets/png/buttons/voltar.png", {
       frameWidth: 32,
       frameHeight: 32,
@@ -64,33 +64,23 @@ export default class jogar extends Phaser.Scene {
     }
 
     this.textoPontuacao = this.add
-      .text(225, 400, `Pontuação: ${this.pontuacao}`, {
-        fontSize: "32px",
-        color: "#AAAAAA",
+      .text(225, 450, `${this.pontuacao}`, {
+        fontSize: "60px",
+        fontStyle: "bold",
+        color: "#FFFFFF",
         fontFamily: "Arial",
-        align: "center",
+        align: "center"
       })
-      .setOrigin(0, 0.5);
-
-    //this.jensonbutton = this.add
-    //  .sprite(225, 450, "jensonbutton")
-    //  .setInteractive()
-    //  .on("pointerdown", () => {
-    //    this.honk = this.sound.add("honk", { loop: false }).play();
-    //    this.pontuacao += 1;
-    //    this.textoPontuacao.setText(`Pontuação: ${this.pontuacao}`);
-    //    if ("vibrate" in navigator) {
-    //      navigator.vibrate(100);
-    //    }
+      .setOrigin(0.5, 0.5);
+    
         if (novoRecorde(this.pontuacao)) {
           this.textoPontuacao.setText(
             `Pontuação: ${this.pontuacao}\n(Novo Recorde!)`
-    //      );
           )
-      };
+        };
 
     this.fim = this.add
-      .sprite(225, 700, "fim")
+      .sprite(225, 650, "fim")
       .setInteractive()
       .on("pointerdown", () => {
         if (podio(this.pontuacao)) {

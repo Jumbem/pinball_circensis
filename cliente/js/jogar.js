@@ -7,9 +7,10 @@ export default class jogar extends Phaser.Scene {
     this.game.cenaAtual = "jogar";
   }
 
-  preload() {
+  preload () {
+    this.load.audio("cantarolando", "assets/mp3/ost/cantarolando.mp3");
     this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
-    this.load.image("senha", "assets/png/backgrounds/abertura2.png");
+    this.load.image("jogar", "assets/png/backgrounds/jogar.png");
     this.load.spritesheet("voltar", "assets/png/buttons/voltar.png", {
       frameWidth: 32,
       frameHeight: 32,
@@ -29,7 +30,18 @@ export default class jogar extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(225, 400, "senha");
+    this.add.image(225, 400, "jogar");
+
+    this.cantarolando = this.sound.add("cantarolando", { loop: true });
+    this.cantarolando.play();
+
+//    window.game.mqttClient.on("message", (topic, message) => {
+//      console.log("Mensagem recebida:", topic, message.toString()); // debug geral
+//      if (topic === window.game.mqttTopic + "senha") {
+//        window.game.mqttSenha = message.toString();
+//        console.log("Senha:", window.game.mqttSenha); // debug
+//      }
+//    });
 
     this.voltar = this.physics.add
       .sprite(50, 50, "voltar")
@@ -38,14 +50,15 @@ export default class jogar extends Phaser.Scene {
         this.sound.play("botao", { loop: false });
         this.cameras.main.fadeOut(187);
         this.cameras.main.once("camerafadeoutcomplete", () => { // a interatividade só acontece ao clicar/tocar no botão
+          this.cantarolando.stop();
           this.scene.stop("jogar");
           this.scene.start("abertura");
         });
       });
 
-    this.add.text(225, 175, "Para iniciar o jogo,\npor favor insira a senha\ndita pelo operador", {
+    this.add.text(225, 210, "Para iniciar o jogo,\npor favor insira a senha\ndita pelo operador", {
       fontFamily: "Arial",
-      fontSize: "35px",
+      fontSize: "33px",
       color: "#ffffff",
       align: "center",
       stroke: "#000000",
@@ -81,7 +94,7 @@ export default class jogar extends Phaser.Scene {
     for (let i = 0; i < 4; i++) {
       const x = baseX + i * espacamento;
       const textoSenha = this.add
-        .text(x, 487, this.numeros[this.indices[i]], {
+        .text(x, 438, this.numeros[this.indices[i]], {
           fontSize: "125px",
           color: "#FFFFFF",
           fontFamily: "Arial",
@@ -91,8 +104,7 @@ export default class jogar extends Phaser.Scene {
       this.senha.push(textoSenha);
 
       let upInterval;
-      this.upbutton = this.physics.add
-        .sprite(x, 380, "upbutton")
+      this.upbutton = this.add.sprite(x, 330, "upbutton")
         .play("upbutton-move")
         .setOrigin(0.5, 0.5)
         .setInteractive()
@@ -110,8 +122,7 @@ export default class jogar extends Phaser.Scene {
         .on("pointerout", () => clearInterval(upInterval));
 
       let downInterval;
-      this.downbutton = this.physics.add
-        .sprite(x, 600, "downbutton")
+      this.downbutton = this.add.sprite(x, 550, "downbutton")
         .play("downbutton-move")
         .setOrigin(0.5, 0.5)
         .setInteractive()
@@ -127,7 +138,7 @@ export default class jogar extends Phaser.Scene {
         .on("pointerout", () => clearInterval(downInterval));
     }
 
-    this.confirmar = this.add.sprite(225, 700, "confirmar")
+    this.confirmar = this.add.sprite(225, 660, "confirmar")
       .setOrigin(0.5, 0.5)
       .setInteractive()
       .on("pointerdown", () => {
@@ -139,6 +150,7 @@ export default class jogar extends Phaser.Scene {
           )
           this.cameras.main.fadeOut(187);
           this.cameras.main.once("camerafadeoutcomplete", () => {
+            this.cantarolando.stop();
             this.scene.stop("jogar");
             this.scene.start("placar");
           });
@@ -147,10 +159,5 @@ export default class jogar extends Phaser.Scene {
         }
       });
     
-    window.game.mqttClient.on("message", (topic, message) => {
-      if (topic === window.game.mqttTopic + "senha") {
-        window.game.mqttSenha = message.toString();
-      }
-    })
   }
 }

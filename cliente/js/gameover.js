@@ -9,7 +9,7 @@ export default class gameover extends Phaser.Scene {
 
   preload () {
     this.load.audio("gameover", "assets/mp3/ost/gameover.mp3");
-    this.load.image("gameover", "assets/png/backgrounds/placeholder.png");
+    this.load.image("gameover", "assets/png/backgrounds/gameover.png");
   }
 
   create () {
@@ -17,15 +17,16 @@ export default class gameover extends Phaser.Scene {
     this.gameoverSound.play();
     this.add.image(225, 400, "gameover");
 
-    this.add.text(225, 300, "FIM DE\nJOGO!", {
+    this.add.text(225, 350, "FIM DE\nJOGO!", {
       fontFamily: "Arial",
       fontSize: "100px",
+      fontStyle: "bold",
       color: "#ffffff",
       align: "center",
       stroke: "#000000",
       strokeThickness: 2,
     }).setOrigin(0.5, 0.5);
-    this.add.text(225, 500, "Que tal jogar\nmais uma vez para\nentrar no TOP 3?", {
+    this.add.text(225, 525, "Que tal jogar\nmais uma vez para\nentrar no TOP 3?", {
       fontFamily: "Arial",
       fontSize: "30px",
       color: "#ffffff",

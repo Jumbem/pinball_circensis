@@ -25,11 +25,11 @@ class Game extends Phaser.Game {
         },
       ],
     };
-    this.socket = io();
+    //this.socket = io();
 
-    this.socket.on("connect", () => {
-      console.log(`Usuário ${this.socket.id} conectado no servidor`);
-    });
+    //this.socket.on("connect", () => {
+    //  console.log(`Usuário ${this.socket.id} conectado no servidor`);
+    //});
 
     this.scene.add("abertura", abertura);
     this.scene.add("precarregamento", precarregamento);
@@ -51,7 +51,7 @@ class Game extends Phaser.Game {
       console.log(`Inscrito no tópico ${this.mqttTopic}#`);
     });
 
-    this.cenaAtual = "placar";
+    this.cenaAtual = "newhighscore";
     this.scene.start(this.cenaAtual);
 
     this.placar = "0";

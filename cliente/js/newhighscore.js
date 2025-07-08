@@ -36,9 +36,9 @@ export default class newhighscore extends Phaser.Scene {
 
     this.add.image(225, 400, "newhighscore");
     
-    this.add.text(225, 275, "Insira um apelido para se registrar\nno ranking.", {
+    this.add.text(225, 300, "Insira um apelido para se registrar no ranking.", {
       fontFamily: "Arial",
-      fontSize: "22px",
+      fontSize: "19px",
       color: "#ffffff",
       align: "center",
       stroke: "#000000",
@@ -200,7 +200,7 @@ export default class newhighscore extends Phaser.Scene {
     }
 
     this.confirmar = this.add
-      .sprite(225, 700, "confirmar")
+      .sprite(225, 712, "confirmar")
       .setInteractive()
       .on("pointerdown", () => {
         const nome = this.indices.map((i) => this.letras[i]).join("");

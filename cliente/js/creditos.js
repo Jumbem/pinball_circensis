@@ -8,7 +8,7 @@ export default class creditos extends Phaser.Scene {
   }
 
   preload() {
-    this.load.audio("cantarolando", "assets/mp3/ost/cantarolando.mp3");
+    this.load.audio("hyperfun", "assets/mp3/ost/hyperfun.mp3");
     this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
     this.load.image("creditos", "assets/png/backgrounds/abertura2.png");
     this.load.spritesheet("voltar", "assets/png/buttons/voltar.png", {
@@ -34,8 +34,8 @@ export default class creditos extends Phaser.Scene {
   }
 
   create() {
-    this.cantarolando = this.sound.add("cantarolando", { loop: true });
-    this.cantarolando.play();
+    this.hyperfun = this.sound.add("hyperfun", { loop: true });
+    this.hyperfun.play();
 
     this.add.image(225, 400, "creditos");
 
@@ -46,7 +46,7 @@ export default class creditos extends Phaser.Scene {
         this.sound.play("botao", { loop: false });
         this.cameras.main.fadeOut(187);
         this.cameras.main.once("camerafadeoutcomplete", () => {
-          this.cantarolando.stop(); // a interatividade só acontece ao clicar/tocar no botão
+          this.hyperfun.stop(); // a interatividade só acontece ao clicar/tocar no botão
           this.scene.stop('creditos')
           this.scene.start('abertura')
         })
