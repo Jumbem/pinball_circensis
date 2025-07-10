@@ -1,4 +1,4 @@
-/*global Phaser, io*/
+/*global Phaser*/
 /*eslint no-undef: "error"*/
 export default class jogar extends Phaser.Scene {
   constructor() {
@@ -11,16 +11,11 @@ export default class jogar extends Phaser.Scene {
 
   preload() {
     this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
-    //this.load.audio("honk", "assets/honk.mp3");
     this.load.image("placar", "assets/png/backgrounds/placar.png");
     this.load.spritesheet("voltar", "assets/png/buttons/voltar.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
-    //this.load.spritesheet("jensonbutton", "assets/png/buttons/jensonbutton.png", {
-    //  frameWidth: 300,
-    //  frameHeight: 75,
-    //});
     this.load.spritesheet("fim", "assets/png/buttons/fim.png", {
       frameWidth: 200,
       frameHeight: 50,
