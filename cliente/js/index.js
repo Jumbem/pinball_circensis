@@ -1,4 +1,4 @@
-/*global Phaser, mqtt, io*/
+/*global Phaser, mqtt*/
 /*eslint no-undef: "error"*/
 import config from "./config.js";
 import abertura from "./abertura.js";
@@ -13,28 +13,6 @@ import placar from "./placar.js";
 class Game extends Phaser.Game {
   constructor() {
     super(config);
-
-    this.audio = document.querySelector("audio");
-    this.iceServers = {
-      iceServers: [
-        {
-          urls: "stun:feira-de-jogos.dev.br",
-        },
-        {
-          urls: "turns:feira-de-jogos.dev.br",
-          username: "adc20251",
-          credential: "adc20251",
-        },
-        {
-          urls: "stun:stun.1.google.com:19302",
-        },
-      ],
-    };
-    //this.socket = io();
-
-    //this.socket.on("connect", () => {
-    //  console.log(`Usuário ${this.socket.id} conectado no servidor`);
-    //});
 
     this.scene.add("abertura", abertura);
     this.scene.add("precarregamento", precarregamento);
