@@ -1,11 +1,12 @@
+/*global Phaser*/
+/*eslint no-undef: "error"*/
 export default class newhighscore extends Phaser.Scene {
   constructor() {
     super("newhighscore");
   }
 
-  init(data) {
+  init() {
     this.game.cenaAtual = "newhighscore";
-//    this.pontuacao = data.pontuacao || 0; // Recebe a pontuação da cena anterior
   }
 
   preload() {
@@ -35,15 +36,17 @@ export default class newhighscore extends Phaser.Scene {
     this.soNasPretas.play();
 
     this.add.image(225, 400, "newhighscore");
-    
-    this.add.text(225, 300, "Insira um apelido para se registrar no ranking.", {
-      fontFamily: "Arial",
-      fontSize: "19px",
-      color: "#ffffff",
-      align: "center",
-      stroke: "#000000",
-      strokeThickness: 2,
-    }).setOrigin(0.5, 0.5);
+
+    this.add
+      .text(225, 300, "Insira um apelido para se registrar no ranking.", {
+        fontFamily: "Arial",
+        fontSize: "19px",
+        color: "#ffffff",
+        align: "center",
+        stroke: "#000000",
+        strokeThickness: 2,
+      })
+      .setOrigin(0.5, 0.5);
 
     this.anims.create({
       key: "confirmar-pressing",
@@ -196,7 +199,10 @@ export default class newhighscore extends Phaser.Scene {
       ranking.push({ nome: nome, pontos: pontos }); // nome: escolhido pelo jogador, pontos: recebido da cena anterior
       ranking.sort((a, b) => b.pontos - a.pontos);
       ranking = ranking.slice(0, 3); // mantém só os 3 melhores
-      localStorage.setItem("ranklogo(192x192)-1.pnging", JSON.stringify(ranking));
+      localStorage.setItem(
+        "ranklogo(192x192)-1.pnging",
+        JSON.stringify(ranking)
+      );
     }
 
     this.confirmar = this.add
@@ -210,14 +216,14 @@ export default class newhighscore extends Phaser.Scene {
           );
           return;
         }
-        salvarRanking(nome, this.pontuacao);
+        salvarRanking(nome, this.game.placar);
         this.confirmar.anims.play("confirmar-pressing", true);
         this.cameras.main.fadeOut(650);
         this.cameras.main.once("camerafadeoutcomplete", () => {
           // a interatividade só acontece ao clicar/tocar no botão
           this.soNasPretas.stop();
           this.scene.stop("newhighscore");
-          this.scene.start("ranking", { nome: nome, pontos: this.pontuacao });
+          this.scene.start("ranking", { nome: nome, pontos: this.game.placar });
         });
       });
   }

@@ -10,7 +10,10 @@ export default class abertura extends Phaser.Scene {
   }
 
   preload() {
-    this.load.audio("charliechaplin", "assets/mp3/ost/charlie-chaplin-walk.mp3");
+    this.load.audio(
+      "charliechaplin",
+      "assets/mp3/ost/charlie-chaplin-walk.mp3"
+    );
     this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
     this.load.image("abertura", "assets/png/backgrounds/abertura2.png");
     this.load.spritesheet("logo", "assets/png/other/logo.png", {
@@ -29,10 +32,14 @@ export default class abertura extends Phaser.Scene {
       frameWidth: 300,
       frameHeight: 75,
     });
-    this.load.spritesheet("highscorebutton", "assets/png/buttons/highscore.png", {
-      frameWidth: 300,
-      frameHeight: 75,
-    });
+    this.load.spritesheet(
+      "highscorebutton",
+      "assets/png/buttons/highscore.png",
+      {
+        frameWidth: 300,
+        frameHeight: 75,
+      }
+    );
   }
 
   create(data) {

@@ -1,8 +1,14 @@
 #include <Wire.h>
 
+#define sensIND1 3
 #define SLAVE_ADDRESS 0x10
 
-byte sensors[10];
+byte sensores[10];
+bool IND1 = true;
+int i = 0;
+int n = 0;
+int b = 0;
+bool ds = 1;
 
 void malabaristasLigar()
 {
@@ -79,12 +85,12 @@ void receiveEvent(int howMany)
 
 void requestEvent()
 {
-  Wire.write(sensors, 10);
+  Wire.write(sensores, 10);
 
   // Clear sensor data
   for (int i = 0; i < 10; i++)
   {
-    sensors[i] = 0;
+    sensores[i] = 0;
   }
 }
 
@@ -92,27 +98,49 @@ void setup()
 {
   Serial.begin(9600);
 
+  pinMode(sensIND1, INPUT);
+
   Wire.begin(SLAVE_ADDRESS);
   Wire.onReceive(receiveEvent);
   Wire.onRequest(requestEvent);
   Serial.println("I2C Slave Ready");
 }
 
-void simularSensores()
+byte lerSensorInducao1()
 {
-  char hexCar[2];
-
-  for (int i = 0; i < 10; i++)
+  IND1 = digitalRead(sensIND1);
+  if ((IND1 == 1) && (ds == 0))
   {
-    sensors[i] = random(0, 2);
-    sprintf(hexCar, "%02X", sensors[i]);
-    Serial.print(hexCar);
+    ds = 1;
   }
-  Serial.println("");
+  else if ((IND1 == 0) && (ds == 1))
+  {
+    ds = 0;
+    i = i + 1;
+
+    if (i < 3)
+    {
+      b = 3 - i;
+      Serial.print(("Faltam "));
+      Serial.println(b);
+      Serial.println("para uma volta.");
+    }
+
+    if (i == 3)
+    {
+      Serial.print(F("Volta Completa,"));
+      n = n + 1;
+      Serial.print(F(" quantidade de voltas: "));
+      Serial.println(n);
+      i = 0;
+    }
+  }
+
+  return n;
 }
 
 void loop()
 {
-  simularSensores();
-  delay(100);
+  sensores[0] = lerSensorInducao1();
+  delay(10);
 }

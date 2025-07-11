@@ -1,3 +1,5 @@
+/*global Phaser*/
+/*eslint no-undef: "error"*/
 export default class jogar extends Phaser.Scene {
   constructor() {
     super("jogar");
@@ -7,7 +9,7 @@ export default class jogar extends Phaser.Scene {
     this.game.cenaAtual = "jogar";
   }
 
-  preload () {
+  preload() {
     this.load.audio("cantarolando", "assets/mp3/ost/cantarolando.mp3");
     this.load.audio("botao", "assets/mp3/sfx/botao.mp3");
     this.load.image("jogar", "assets/png/backgrounds/jogar.png");
@@ -35,35 +37,35 @@ export default class jogar extends Phaser.Scene {
     this.cantarolando = this.sound.add("cantarolando", { loop: true });
     this.cantarolando.play();
 
-//    window.game.mqttClient.on("message", (topic, message) => {
-//      console.log("Mensagem recebida:", topic, message.toString()); // debug geral
-//      if (topic === window.game.mqttTopic + "senha") {
-//        window.game.mqttSenha = message.toString();
-//        console.log("Senha:", window.game.mqttSenha); // debug
-//      }
-//    });
-
     this.voltar = this.physics.add
       .sprite(50, 50, "voltar")
       .setInteractive()
       .on("pointerdown", () => {
         this.sound.play("botao", { loop: false });
         this.cameras.main.fadeOut(187);
-        this.cameras.main.once("camerafadeoutcomplete", () => { // a interatividade só acontece ao clicar/tocar no botão
+        this.cameras.main.once("camerafadeoutcomplete", () => {
+          // a interatividade só acontece ao clicar/tocar no botão
           this.cantarolando.stop();
           this.scene.stop("jogar");
           this.scene.start("abertura");
         });
       });
 
-    this.add.text(225, 210, "Para iniciar o jogo,\npor favor insira a senha\ndita pelo operador", {
-      fontFamily: "Arial",
-      fontSize: "33px",
-      color: "#ffffff",
-      align: "center",
-      stroke: "#000000",
-      strokeThickness: 2,
-    }).setOrigin(0.5, 0.5);
+    this.add
+      .text(
+        225,
+        210,
+        "Para iniciar o jogo,\npor favor insira a senha\ndita pelo operador",
+        {
+          fontFamily: "Arial",
+          fontSize: "33px",
+          color: "#ffffff",
+          align: "center",
+          stroke: "#000000",
+          strokeThickness: 2,
+        }
+      )
+      .setOrigin(0.5, 0.5);
 
     this.anims.create({
       key: "upbutton-move",
@@ -104,7 +106,8 @@ export default class jogar extends Phaser.Scene {
       this.senha.push(textoSenha);
 
       let upInterval;
-      this.upbutton = this.add.sprite(x, 330, "upbutton")
+      this.upbutton = this.add
+        .sprite(x, 330, "upbutton")
         .play("upbutton-move")
         .setOrigin(0.5, 0.5)
         .setInteractive()
@@ -122,7 +125,8 @@ export default class jogar extends Phaser.Scene {
         .on("pointerout", () => clearInterval(upInterval));
 
       let downInterval;
-      this.downbutton = this.add.sprite(x, 550, "downbutton")
+      this.downbutton = this.add
+        .sprite(x, 550, "downbutton")
         .play("downbutton-move")
         .setOrigin(0.5, 0.5)
         .setInteractive()
@@ -138,16 +142,19 @@ export default class jogar extends Phaser.Scene {
         .on("pointerout", () => clearInterval(downInterval));
     }
 
-    this.confirmar = this.add.sprite(225, 660, "confirmar")
+    this.confirmar = this.add
+      .sprite(225, 660, "confirmar")
       .setOrigin(0.5, 0.5)
       .setInteractive()
       .on("pointerdown", () => {
         this.sound.play("botao", { loop: false });
-        const senhaDigitada = this.indices.map(i => this.numeros[i]).join("");
+        const senhaDigitada = this.indices.map((i) => this.numeros[i]).join("");
         if (senhaDigitada === window.game.mqttSenha) {
           window.game.mqttClient.publish(
-            window.game.mqttTopic + "modo", "jogando", { qos: 1 }
-          )
+            window.game.mqttTopic + "modo",
+            "jogando",
+            { qos: 1 }
+          );
           this.cameras.main.fadeOut(187);
           this.cameras.main.once("camerafadeoutcomplete", () => {
             this.cantarolando.stop();
@@ -158,6 +165,5 @@ export default class jogar extends Phaser.Scene {
           alert("Senha incorreta! Tente novamente.");
         }
       });
-    
   }
 }

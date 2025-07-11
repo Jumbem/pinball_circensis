@@ -20,9 +20,12 @@ class PinballConfig:
 
         self.I2C_BUS = int(getenv("I2C_BUS", default="1"))
         self.I2C_ADDRESS = int(getenv("I2C_ADDRESS", default="16"))
-        self.I2C_READ_INTERVAL = float(getenv("I2C_READ_INTERVAL", default="0.1"))
-        self.MQTT_LOOP_INTERVAL = float(getenv("MQTT_LOOP_INTERVAL", default="1.0"))
-        self.MAIN_LOOP_INTERVAL = float(getenv("MAIN_LOOP_INTERVAL", default="2.0"))
+        self.I2C_READ_INTERVAL = float(
+            getenv("I2C_READ_INTERVAL", default="0.1"))
+        self.MQTT_LOOP_INTERVAL = float(
+            getenv("MQTT_LOOP_INTERVAL", default="1.0"))
+        self.MAIN_LOOP_INTERVAL = float(
+            getenv("MAIN_LOOP_INTERVAL", default="2.0"))
         self.I2C_ERROR_RETRY_DELAY = float(
             getenv("I2C_ERROR_RETRY_DELAY", default="1.0")
         )
@@ -30,7 +33,8 @@ class PinballConfig:
         self.MQTT_HOST = getenv("MQTT_HOST", default="feira-de-jogos.dev.br")
         self.MQTT_PORT = int(getenv("MQTT_PORT", default="1883"))
         self.MQTT_TIMEOUT = int(getenv("MQTT_TIMEOUT", default="60"))
-        self.MQTT_TOPIC = getenv("MQTT_TOPIC", default="adc20251/pinball-et-circensis/")
+        self.MQTT_TOPIC = getenv(
+            "MQTT_TOPIC", default="adc20251/pinball-et-circensis/")
 
 
 class Pinball:
@@ -50,7 +54,11 @@ class Pinball:
         self.i2c_error_count = 0
         self.i2c_read_count = 0
 
-        self.mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)  # type: ignore
+        self.placar = 0
+        self.pontos[10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+        self.mqtt_client = mqtt.Client(
+            mqtt.CallbackAPIVersion.VERSION2)  # type: ignore
         self.mqtt_error_count = 0
 
     def log(self, message):
@@ -76,9 +84,13 @@ class Pinball:
             self.mode = msg.payload.decode()
 
             if self.mode == "espera":
-                self.log("Modo espera ativado.")
                 self.password = self.createPassword()
                 self.log(f"Senha gerada: {self.password}")
+
+                self.placar = 0
+                self.log(f"Placar zerado: {self.placar}")
+
+                self.log("Modo espera ativado.")
 
             elif self.mode == "jogando":
                 self.log("Modo jogando ativado!")
@@ -102,15 +114,22 @@ class Pinball:
             try:
                 loop = asyncio.get_event_loop()
                 data = await loop.run_in_executor(
-                    None, lambda: self.bus.read_i2c_block_data(self.config.I2C_ADDRESS, 0, 10)
+                    None, lambda: self.bus.read_i2c_block_data(
+                        self.config.I2C_ADDRESS, 0, 10)
                 )
 
                 with self.i2c_lock:
                     self.i2c_data = data
+
+                    for sensor in data:
+                        if data[sensor] > 0:
+                            self.placar += data[sensor] * self.pontos[sensor]
+
                     self.i2c_read_count += 1
 
                 if self.i2c_read_count % 50 == 0:
-                    self.log(f"Dados I2C lidos: {data} (total: {self.i2c_read_count})")
+                    self.log(
+                        f"Dados I2C lidos: {data} (total: {self.i2c_read_count})")
 
                 self.i2c_error_count = 0
 
@@ -118,7 +137,8 @@ class Pinball:
 
             except Exception as e:
                 self.i2c_error_count += 1
-                self.log(f"Erro ao ler dados I2C (#{self.i2c_error_count}): {e}")
+                self.log(
+                    f"Erro ao ler dados I2C (#{self.i2c_error_count}): {e}")
                 await asyncio.sleep(self.config.I2C_ERROR_RETRY_DELAY)
 
     async def mqtt_loop(self):
@@ -133,9 +153,15 @@ class Pinball:
                 self.mqtt_client.publish(
                     self.config.MQTT_TOPIC + "estado", self.mode, qos=1
                 )
-                self.mqtt_client.publish(
-                    self.config.MQTT_TOPIC + "senha", self.password, qos=1
-                )
+
+                if self.mode == "espera":
+                    self.mqtt_client.publish(
+                        self.config.MQTT_TOPIC + "senha", self.password, qos=1
+                    )
+                elif self.mode == "jogando":
+                    self.mqtt_client.publish(
+                        self.config.MQTT_TOPIC + "placar", self.placar, qos=1
+                    )
 
                 self.mqtt_error_count = 0
 
@@ -154,10 +180,10 @@ class Pinball:
         while self.running:
             try:
                 if self.mode == "espera":
-                    self.log(f"Em espera, senha: {self.password}")
+                    self.log(f"Em espera. Senha: {self.password}")
 
                 elif self.mode == "jogando":
-                    self.log("Jogando!")
+                    self.log(f"Jogando! Placar atual: {self.placar}")
 
                 with self.i2c_lock:
                     if self.i2c_data is not None:

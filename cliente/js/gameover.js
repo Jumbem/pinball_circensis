@@ -1,3 +1,5 @@
+/*global Phaser*/
+/*eslint no-undef: "error"*/
 export default class gameover extends Phaser.Scene {
   constructor() {
     super("gameover");
@@ -7,12 +9,12 @@ export default class gameover extends Phaser.Scene {
     this.game.cenaAtual = "gameover";
   }
 
-  preload () {
+  preload() {
     this.load.audio("gameover", "assets/mp3/ost/gameover.mp3");
     this.load.image("gameover", "assets/png/backgrounds/gameover.png");
   }
 
-  create () {
+  create() {
     this.gameoverSound = this.sound.add("gameover", { loop: false });
     this.gameoverSound.play();
     this.add.image(225, 400, "gameover");

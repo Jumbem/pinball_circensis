@@ -1,4 +1,4 @@
-/*global Phaser, io*/
+/*global Phaser*/
 /*eslint no-undef: "error"*/
 export default class jogar extends Phaser.Scene {
   constructor() {
