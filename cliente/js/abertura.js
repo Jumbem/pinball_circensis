@@ -35,10 +35,14 @@ export default class abertura extends Phaser.Scene {
     });
   }
 
-  create() {
+  create(data) {
     this.charliechaplin = this.sound.add("charliechaplin", { loop: true });
     this.charliechaplin.play();
     this.add.image(225, 400, "abertura");
+
+    if (data && data.desistiu) {
+      alert("Uma pena que você tenha desistido da partida. Estaremos esperando pelo seu retorno!");
+    };
 
     window.game.mqttModo = "espera";
 
@@ -118,9 +122,9 @@ export default class abertura extends Phaser.Scene {
       .on("pointerdown", () => {
         this.sound.play("botao", { loop: false });
         let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
-        if (ranking.length < 3) {
+        if (ranking.length < 1) {
           alert(
-            "O ranking só estará disponível após três jogadores diferentes registrarem seus primeiros pontos. Venha jogar você também!"
+            "O ranking só estará disponível após a sua primeira partida. Não perca tempo e venha jogar!"
           );
           return;
         } else {

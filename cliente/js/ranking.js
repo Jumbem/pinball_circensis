@@ -4,8 +4,8 @@ export default class ranking extends Phaser.Scene {
   }
 
   init(data) {
-    this.nome = data.nome;
-    this.pontuacao = data.pontuacao;
+    this.nome = data && data.nome ? data.nome : null;
+    this.pontuacao = data && data.pontuacao ? data.pontuacao : null;
     this.game.cenaAtual = "ranking";
   }
 
@@ -78,12 +78,19 @@ export default class ranking extends Phaser.Scene {
       }
     });
 
-    this.add.text(70, 600, "Sua maior pontuação:", {
-      fontSize: "32px",
+    this.add.text(225, 610, "OBSERVAÇÃO!", {
+      fontSize: "20px",
       color: "#FFFFFF",
       fontFamily: "Arial",
-      align: "center",
-    });
+      align: "center"
+    }).setOrigin(0.5, 0.5);
+
+    this.add.text(225, 675, "Este é o seu ranking pessoal.\nEm breve você verá um\nranking global aqui!", {
+      fontSize: "24px",
+      color: "#FFFFFF",
+      fontFamily: "Arial",
+      align: "center"
+    }).setOrigin(0.5, 0.5);
   }
 
   update() {}
