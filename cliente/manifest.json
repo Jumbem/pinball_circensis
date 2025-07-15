@@ -10,23 +10,23 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "./assets/logo/128.png",
+      "src": "./assets/favicon/128.png",
       "sizes": "128x128"
     },
     {
-      "src": "./assets/logo/192.png",
+      "src": "./assets/favicon/192.png",
       "sizes": "192x192"
     },
     {
-      "src": "./assets/logo/256.png",
+      "src": "./assets/favicon/256.png",
       "sizes": "256x256"
     },
     {
-      "src": "./assets/logo/384.png",
+      "src": "./assets/favicon/384.png",
       "sizes": "384x384"
     },
     {
-      "src": "./assets/logo/512.png",
+      "src": "./assets/favicon/512.png",
       "sizes": "512x512"
     }
   ]
