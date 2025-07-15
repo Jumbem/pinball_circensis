@@ -10,23 +10,23 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "./assets/favicon/128.png",
+      "src": "./assets/png/favicon/128.png",
       "sizes": "128x128"
     },
     {
-      "src": "./assets/favicon/192.png",
+      "src": "./assets/png/favicon/192.png",
       "sizes": "192x192"
     },
     {
-      "src": "./assets/favicon/256.png",
+      "src": "./assets/png/favicon/256.png",
       "sizes": "256x256"
     },
     {
-      "src": "./assets/favicon/384.png",
+      "src": "./assets/png/favicon/384.png",
       "sizes": "384x384"
     },
     {
-      "src": "./assets/favicon/512.png",
+      "src": "./assets/png/favicon/512.png",
       "sizes": "512x512"
     }
   ]
