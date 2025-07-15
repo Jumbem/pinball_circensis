@@ -1,8 +1,42 @@
 <html>
   <head>
+    <meta charset="UTF-8" />
     <title>Pinball et Circensis</title>
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+    <meta name="author" content="Junior Mendes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="application-name" content="Pinball et Circensis" />
+    <meta name="apple-mobile-web-app-title" content="Pinball et Circensis" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="msapplication-navbutton-color" content="#000000" />
+    <meta name="msapplication-starturl" content="./index.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Necessário trocar esses assets pelo meu ícone -->
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" sizes="128x128" href="./assets/logo/128.png" />
+    <link rel="apple-touch-icon" sizes="128x128" href="./assets/logo/128.png" />      
+    <link rel="icon" sizes="192x192" href="./assets/logo/192.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="./assets/logo/192.png" />
+    <link rel="icon" sizes="256x256" href="./assets/logo/256.png" />
+    <link rel="apple-touch-icon" sizes="256x256" href="./assets/logo/256.png" />
+    <link rel="icon" sizes="384x384" href="./assets/logo/384.png" />
+    <link rel="apple-touch-icon" sizes="384x384" href="./assets/logo/384.png" />
+    <link rel="icon" sizes="512x512" href="./assets/logo/512.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="./assets/logo/512.png" />
+
     <link rel="stylesheet" type="text/css" href="./main.css" />
+    <script type="text/javascript">
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+         .register("./sw.js")
+          .then((reg) => console.info("Service worker registered: ", reg))
+          .catch((err) =>
+            console.error("Error registering service worker: ", err)
+          )
+      }
+    </script>
   </head>
 
     <body>
