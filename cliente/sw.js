@@ -38,7 +38,6 @@ const cacheName = 'cache-v1'
    './assets/png/other/logo.png',
    './assets/png/other/sona-bianca-300.png',
    './assets/png/other/sona-junior-300.png',
-
 ]
 
 self.addEventListener('install', (event) => {
