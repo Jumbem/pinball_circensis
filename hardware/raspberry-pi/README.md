@@ -21,12 +21,13 @@ pip install --upgrade pip
 pip install -r hardware/raspberry-pi/requirements.txt
 
 # Instalar e ativar o serviço
-cd /etc/systemd/system
+mkdir -p ~/.config/systemd/user/
+cd ~/.config/systemd/user/
 sudo ln -s /home/pi/pinball_circensis/hardware/raspberry-pi/pinball.service
-sudo systemctl daemon-reload
-sudo systemctl enable pinball
-sudo systemctl restart pinball
+sudo systemctl --user daemon-reload
+sudo systemctl --user enable pinball.service
+sudo systemctl --user restart pinball.service
 
 # Monitorar os logs do serviço
-sudo journalctl -f -u pinball.service
+sudo systemctl --user status pinball.service
 ```
